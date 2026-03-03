@@ -1,0 +1,1559 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BM – komunikaty Bricomarché</title>
+  <style>
+    :root {
+      --bg:#881111;
+      --fg:#fff;
+      --card:rgba(255,255,255,.08);
+      --line:rgba(255,255,255,.24);
+      --soft:rgba(0,0,0,.15);
+      --soft2:rgba(0,0,0,.22);
+    }
+    * { box-sizing:border-box; }
+    body {
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+      background:var(--bg);
+      color:var(--fg);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+    .app {
+      width:min(980px,100%);
+      display:grid;
+      gap:16px;
+    }
+    .topBar {
+      display:grid;
+      grid-template-columns:auto 1fr;
+      align-items:center;
+      gap:16px;
+    }
+    .logo {
+      width:min(320px,42vw);
+      height:auto;
+      justify-self:start;
+    }
+    .time {
+      justify-self:end;
+      text-align:right;
+    }
+    .clock {
+      font-weight:800;
+      letter-spacing:.08em;
+      font-size:clamp(2.2rem,7vw,4rem);
+      line-height:1;
+    }
+    .date {
+      opacity:.9;
+      margin-top:6px;
+    }
+    @media (max-width:760px) {
+      .topBar {
+        grid-template-columns:1fr;
+      }
+      .logo, .time {
+        justify-self:center;
+        text-align:center;
+      }
+    }
+    .controls {
+      display:grid;
+      gap:14px;
+      padding:14px;
+      background:var(--card);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+    }
+    .row {
+      display:grid;
+      gap:12px;
+      grid-template-columns:1fr;
+    }
+    @media (min-width:760px) {
+      .row.two {
+        grid-template-columns:1fr 1fr;
+      }
+      .row.actionsRow {
+        grid-template-columns:auto auto 1fr;
+      }
+    }
+    .btn {
+      font:inherit;
+      font-weight:800;
+      padding:12px 16px;
+      border-radius:12px;
+      border:2px solid rgba(255,255,255,.35);
+      background:rgba(0,0,0,.12);
+      color:var(--fg);
+      cursor:pointer;
+    }
+    .btn:hover {
+      background:rgba(0,0,0,.22);
+    }
+    .btn:focus-visible {
+      outline:3px solid rgba(255,255,255,.55);
+      outline-offset:2px;
+    }
+    .btn.smallBtn {
+      padding:9px 12px;
+      font-weight:700;
+    }
+    dialog .btn{
+      background:#8b1111;
+      color:#ffffff;
+      border:2px solid #8b1111;
+    }
+    dialog .btn:hover{
+      background:#6f0d0d;
+      border-color:#6f0d0d;
+    }
+    dialog .btn:focus-visible{
+      outline:3px solid rgba(139,17,17,.35);
+      outline-offset:2px;
+    }
+    .field {
+      display:grid;
+      gap:6px;
+      text-align:left;
+    }
+    .field input,
+    .field select {
+      font:inherit;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:var(--soft);
+      color:var(--fg);
+      width:100%;
+    }
+    .fileSelect {
+      font-weight:900 !important;
+      font-size:1.04rem;
+      letter-spacing:.01em;
+    }
+    .fileSelect option {
+      color:#111 !important;
+      background:#fff !important;
+      font-weight:900 !important;
+      font-size:1.02rem !important;
+      padding:8px 10px;
+    }
+    .audioWrap {
+      padding:12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.14);
+      text-align:left;
+      display:grid;
+      gap:8px;
+    }
+    .audioCurrentTitle {
+      margin:0;
+      font-size:1.18rem;
+      font-weight:900;
+      line-height:1.2;
+    }
+    .audioSubtle {
+      margin:0;
+      font-size:.88rem;
+      opacity:.86;
+      line-height:1.35;
+    }
+    audio {
+      width:100%;
+      display:block;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      filter:saturate(.85) brightness(.92);
+      accent-color:#d8c3c3;
+    }
+    audio::-webkit-media-controls-panel {
+      background:rgba(230,215,215,.26);
+    }
+    .queueStatsGrid{
+      display:grid;
+      gap:12px;
+      grid-template-columns:1.2fr .9fr;
+      align-items:start;
+      margin-top:4px;
+    }
+    @media (max-width: 760px){
+      .queueStatsGrid{
+        grid-template-columns:1fr;
+      }
+    }
+    .queueCard,
+    .statsCard{
+      padding:10px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.10);
+    }
+    .queueCardTitle,
+    .statsCardTitle{
+      margin:0 0 8px 0;
+      font-size:.9rem;
+      font-weight:800;
+      opacity:.95;
+    }
+    .queueList {
+      display:grid;
+      gap:6px;
+      margin-top:2px;
+    }
+    .queueItem {
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:10px;
+      align-items:center;
+      padding:6px 8px;
+      border-radius:10px;
+      background:rgba(0,0,0,.12);
+      font-size:.78rem;
+      opacity:.92;
+    }
+    .queueTimer {
+      white-space:nowrap;
+      font-weight:800;
+    }
+    .intervalBox {
+      display:grid;
+      gap:8px;
+      grid-template-columns:1fr 1fr;
+      align-items:end;
+    }
+    .status {
+      font-weight:800;
+      opacity:.95;
+      margin:0;
+      text-align:left;
+    }
+    .small {
+      font-size:.92rem;
+      opacity:.88;
+      margin:0;
+      line-height:1.4;
+      text-align:left;
+    }
+    .warn {
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.15);
+      text-align:left;
+    }
+    .section {
+      display:grid;
+      gap:10px;
+      padding-top:4px;
+      text-align:left;
+    }
+    .hidden { display:none !important; }
+    .pill {
+      display:inline-block;
+      padding:4px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.12);
+      font-size:.92rem;
+      opacity:.97;
+    }
+    .inlineNote {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+      text-align:left;
+    }
+    .counterBox {
+      display:grid;
+      gap:8px;
+      align-content:start;
+    }
+    .messageList,
+    .hoursSlots {
+      display:grid;
+      gap:10px;
+    }
+    .messageRow {
+      display:grid;
+      gap:10px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.10);
+    }
+    .messageRowTop {
+      display:grid;
+      gap:10px;
+      grid-template-columns:minmax(300px,1fr) auto auto auto;
+      align-items:end;
+    }
+    @media (max-width:860px) {
+      .messageRowTop {
+        grid-template-columns:1fr;
+      }
+    }
+    .hoursRow {
+      display:grid;
+      gap:10px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(0,0,0,.10);
+    }
+    .hoursRowHead {
+      display:grid;
+      gap:10px;
+      grid-template-columns:1fr 1fr auto;
+      align-items:end;
+    }
+    @media (max-width:760px) {
+      .hoursRowHead {
+        grid-template-columns:1fr;
+      }
+    }
+    .actions {
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+    }
+    dialog {
+      width:min(680px,calc(100vw - 32px));
+      border:none;
+      border-radius:16px;
+      padding:0;
+      background:#fff;
+      color:#222;
+    }
+    dialog::backdrop {
+      background:rgba(0,0,0,.45);
+    }
+    .dialogBody {
+      padding:18px;
+      display:grid;
+      gap:12px;
+    }
+    .dialogTitle {
+      margin:0;
+      font-size:1.1rem;
+      font-weight:800;
+    }
+    .dialogText {
+      margin:0;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+    .infoButton {
+      min-width:42px;
+      font-weight:900;
+      font-size:1.02rem;
+    }
+    code {
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <div class="topBar">
+      <img class="logo"
+        src="https://franczyza.bricomarche.pl/assets/img/logo_bricomarche_ok-01.svg"
+        alt="Bricomarché" />
+
+      <div class="time">
+        <div id="clock" class="clock" aria-live="polite">--:--:--</div>
+        <div id="date" class="date"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <div class="audioWrap">
+        <p class="audioCurrentTitle" id="audioCurrentTitle">Brak wybranego komunikatu</p>
+        <audio id="beep" controls preload="metadata"></audio>
+        <p class="audioSubtle" id="srcInfo">Wybierz komunikat do podglądu.</p>
+
+        <div class="queueStatsGrid">
+          <div class="queueCard">
+            <p class="queueCardTitle">Kolejne komunikaty</p>
+            <div class="queueList" id="audioQueueList"></div>
+          </div>
+
+          <div class="statsCard" id="countStatsCard">
+            <p class="statsCardTitle">Stan licznika</p>
+            <div class="pill" id="counterPill">0 / 250 (pozostało: 250)</div>
+            <p class="small" id="countPlanInfo">Od teraz: 250 odtworzeń • ostatnie planowane: —</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row actionsRow">
+        <button id="toggle" class="btn" type="button">Start</button>
+        <button id="clearMemory" class="btn" type="button">Wyczyść pamięć</button>
+
+        <div class="field">
+          <span>Interwał odtwarzania</span>
+          <div class="intervalBox">
+            <label class="field">
+              <span>Minuty</span>
+              <input id="intervalMinutes" type="number" min="0" step="1" value="5" />
+            </label>
+
+            <label class="field">
+              <span>Sekundy</span>
+              <input id="intervalSeconds" type="number" min="0" max="59" step="1" value="0" />
+            </label>
+          </div>
+          <div class="inlineNote">
+            <span class="pill" id="intervalMinPill">Minimum: ładowanie…</span>
+            <span class="pill" id="intervalNowPill">Ustawione: 05:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row two">
+        <label class="field">
+          <span>Tryb odtwarzania</span>
+          <select id="mode">
+            <option value="count">Powtórzenia</option>
+            <option value="hours">Godziny</option>
+          </select>
+        </label>
+
+        <label class="field" title="W trybie Powtórzenia wszystkie dodane komunikaty lecą po kolei w pętli. Jeśli dodasz kilka pozycji, aplikacja będzie przechodziła np. 1.mp3 → 2.mp3 → 3.mp3 → 1.mp3...">
+          <span>Ile razy jeszcze</span>
+          <input id="countValue" type="number" min="1" value="250" title="W trybie Powtórzenia wszystkie dodane komunikaty lecą po kolei w pętli. Jeśli dodasz kilka pozycji, aplikacja będzie przechodziła np. 1.mp3 → 2.mp3 → 3.mp3 → 1.mp3..." />
+        </label>
+      </div>
+
+      <div class="section" id="countSection">
+        <div>
+          <p class="small"><strong>Lista komunikatów dla trybu Powtórzenia</strong></p>
+          <div class="messageList" id="countMessages"></div>
+          <div class="actions" style="margin-top:10px;">
+            <button class="btn smallBtn" id="addCountMessage" type="button">Dodaj komunikat</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section hidden" id="hoursSection">
+        <p class="small">
+          W trybie <strong>Godziny</strong> każdy przedział ma własną listę komunikatów.
+          Dzięki temu np. <code>08:00–09:00</code> może mieć inne pliki niż <code>10:00–11:15</code>.
+        </p>
+
+        <div class="hoursSlots" id="hoursSlots"></div>
+
+        <div class="actions">
+          <button class="btn smallBtn" id="addHoursSlot" type="button">Dodaj więcej godzin</button>
+        </div>
+
+        <p class="small" id="hoursSummary">Brak aktywnych przedziałów.</p>
+      </div>
+
+      <p id="status" class="status" hidden>—</p>
+      <p class="small" id="durInfo"></p>
+
+      <div id="mixedWarning" class="warn" hidden>
+        <div class="small">
+          <strong>Uwaga:</strong> strona jest na HTTPS, a mp3 są po HTTP — przeglądarka może zablokować dźwięk (mixed content).
+          Jeśli tak się stanie, przenieś mp3 na HTTPS albo uruchamiaj stronę po HTTP / lokalnie.
+        </div>
+      </div>
+    </div>
+
+    <p class="small">
+      Created by Piotr Bartosz w razie problemów lub jeżeli potrzebny nowy komunikat 506021300
+    </p>
+  </main>
+
+  <dialog id="infoDialog">
+    <div class="dialogBody">
+      <p class="dialogTitle" id="infoDialogTitle">Opis komunikatu</p>
+      <p class="dialogText" id="infoDialogText"></p>
+      <div class="actions">
+        <button class="btn smallBtn" id="closeInfoDialog" type="button">Zamknij</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const STORAGE_KEY = "bm_komunikaty_state_v2";
+      const BASE_URL = "http://peelbee.xlx.pl/";
+      const MESSAGE_CATALOG = [{"fileNo": 1, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 2, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 3, "shortDesc": "", "fullDesc": ""}, {"fileNo": 4, "shortDesc": "", "fullDesc": ""}, {"fileNo": 5, "shortDesc": "", "fullDesc": ""}, {"fileNo": 6, "shortDesc": "", "fullDesc": ""}, {"fileNo": 7, "shortDesc": "", "fullDesc": ""}, {"fileNo": 8, "shortDesc": "", "fullDesc": ""}, {"fileNo": 9, "shortDesc": "", "fullDesc": ""}, {"fileNo": 10, "shortDesc": "", "fullDesc": ""}, {"fileNo": 11, "shortDesc": "", "fullDesc": ""}, {"fileNo": 12, "shortDesc": "", "fullDesc": ""}, {"fileNo": 13, "shortDesc": "", "fullDesc": ""}, {"fileNo": 14, "shortDesc": "", "fullDesc": ""}, {"fileNo": 15, "shortDesc": "", "fullDesc": ""}, {"fileNo": 16, "shortDesc": "", "fullDesc": ""}, {"fileNo": 17, "shortDesc": "", "fullDesc": ""}, {"fileNo": 18, "shortDesc": "", "fullDesc": ""}, {"fileNo": 19, "shortDesc": "", "fullDesc": ""}, {"fileNo": 20, "shortDesc": "", "fullDesc": ""}, {"fileNo": 21, "shortDesc": "", "fullDesc": ""}, {"fileNo": 22, "shortDesc": "", "fullDesc": ""}, {"fileNo": 23, "shortDesc": "", "fullDesc": ""}, {"fileNo": 24, "shortDesc": "", "fullDesc": ""}, {"fileNo": 25, "shortDesc": "", "fullDesc": ""}, {"fileNo": 26, "shortDesc": "", "fullDesc": ""}, {"fileNo": 27, "shortDesc": "", "fullDesc": ""}, {"fileNo": 28, "shortDesc": "", "fullDesc": ""}, {"fileNo": 29, "shortDesc": "", "fullDesc": ""}, {"fileNo": 30, "shortDesc": "", "fullDesc": ""}, {"fileNo": 31, "shortDesc": "", "fullDesc": ""}, {"fileNo": 32, "shortDesc": "", "fullDesc": ""}, {"fileNo": 33, "shortDesc": "", "fullDesc": ""}, {"fileNo": 34, "shortDesc": "", "fullDesc": ""}, {"fileNo": 35, "shortDesc": "", "fullDesc": ""}, {"fileNo": 36, "shortDesc": "", "fullDesc": ""}, {"fileNo": 37, "shortDesc": "", "fullDesc": ""}, {"fileNo": 38, "shortDesc": "", "fullDesc": ""}, {"fileNo": 39, "shortDesc": "", "fullDesc": ""}, {"fileNo": 40, "shortDesc": "", "fullDesc": ""}, {"fileNo": 41, "shortDesc": "", "fullDesc": ""}, {"fileNo": 42, "shortDesc": "", "fullDesc": ""}, {"fileNo": 43, "shortDesc": "", "fullDesc": ""}, {"fileNo": 44, "shortDesc": "", "fullDesc": ""}, {"fileNo": 45, "shortDesc": "", "fullDesc": ""}, {"fileNo": 46, "shortDesc": "", "fullDesc": ""}, {"fileNo": 47, "shortDesc": "", "fullDesc": ""}, {"fileNo": 48, "shortDesc": "", "fullDesc": ""}, {"fileNo": 49, "shortDesc": "", "fullDesc": ""}, {"fileNo": 50, "shortDesc": "", "fullDesc": ""}, {"fileNo": 51, "shortDesc": "", "fullDesc": ""}, {"fileNo": 52, "shortDesc": "", "fullDesc": ""}, {"fileNo": 53, "shortDesc": "", "fullDesc": ""}, {"fileNo": 54, "shortDesc": "", "fullDesc": ""}, {"fileNo": 55, "shortDesc": "", "fullDesc": ""}, {"fileNo": 56, "shortDesc": "", "fullDesc": ""}, {"fileNo": 57, "shortDesc": "", "fullDesc": ""}, {"fileNo": 58, "shortDesc": "", "fullDesc": ""}, {"fileNo": 59, "shortDesc": "", "fullDesc": ""}, {"fileNo": 60, "shortDesc": "", "fullDesc": ""}, {"fileNo": 61, "shortDesc": "", "fullDesc": ""}, {"fileNo": 62, "shortDesc": "", "fullDesc": ""}, {"fileNo": 63, "shortDesc": "", "fullDesc": ""}, {"fileNo": 64, "shortDesc": "", "fullDesc": ""}, {"fileNo": 65, "shortDesc": "", "fullDesc": ""}, {"fileNo": 66, "shortDesc": "", "fullDesc": ""}, {"fileNo": 67, "shortDesc": "", "fullDesc": ""}, {"fileNo": 68, "shortDesc": "", "fullDesc": ""}, {"fileNo": 69, "shortDesc": "", "fullDesc": ""}, {"fileNo": 70, "shortDesc": "", "fullDesc": ""}, {"fileNo": 71, "shortDesc": "", "fullDesc": ""}, {"fileNo": 72, "shortDesc": "", "fullDesc": ""}, {"fileNo": 73, "shortDesc": "", "fullDesc": ""}, {"fileNo": 74, "shortDesc": "", "fullDesc": ""}, {"fileNo": 75, "shortDesc": "", "fullDesc": ""}, {"fileNo": 76, "shortDesc": "", "fullDesc": ""}, {"fileNo": 77, "shortDesc": "", "fullDesc": ""}, {"fileNo": 78, "shortDesc": "", "fullDesc": ""}, {"fileNo": 79, "shortDesc": "", "fullDesc": ""}, {"fileNo": 80, "shortDesc": "", "fullDesc": ""}, {"fileNo": 81, "shortDesc": "", "fullDesc": ""}, {"fileNo": 82, "shortDesc": "", "fullDesc": ""}, {"fileNo": 83, "shortDesc": "", "fullDesc": ""}, {"fileNo": 84, "shortDesc": "", "fullDesc": ""}, {"fileNo": 85, "shortDesc": "", "fullDesc": ""}, {"fileNo": 86, "shortDesc": "", "fullDesc": ""}, {"fileNo": 87, "shortDesc": "", "fullDesc": ""}, {"fileNo": 88, "shortDesc": "", "fullDesc": ""}, {"fileNo": 89, "shortDesc": "", "fullDesc": ""}, {"fileNo": 90, "shortDesc": "", "fullDesc": ""}, {"fileNo": 91, "shortDesc": "", "fullDesc": ""}, {"fileNo": 92, "shortDesc": "", "fullDesc": ""}, {"fileNo": 93, "shortDesc": "", "fullDesc": ""}, {"fileNo": 94, "shortDesc": "", "fullDesc": ""}, {"fileNo": 95, "shortDesc": "", "fullDesc": ""}, {"fileNo": 96, "shortDesc": "", "fullDesc": ""}, {"fileNo": 97, "shortDesc": "", "fullDesc": ""}, {"fileNo": 98, "shortDesc": "", "fullDesc": ""}, {"fileNo": 99, "shortDesc": "", "fullDesc": ""}, {"fileNo": 100, "shortDesc": "", "fullDesc": ""}];
+      const AVAILABLE_MESSAGES = MESSAGE_CATALOG.filter((item) => (item.shortDesc || "").trim().length > 0);
+
+      const clockEl = document.getElementById("clock");
+      const dateEl = document.getElementById("date");
+      const toggleBtn = document.getElementById("toggle");
+      const clearMemoryBtn = document.getElementById("clearMemory");
+      const statusEl = document.getElementById("status");
+
+      const intervalMinutesInput = document.getElementById("intervalMinutes");
+      const intervalSecondsInput = document.getElementById("intervalSeconds");
+      const intervalMinPill = document.getElementById("intervalMinPill");
+      const intervalNowPill = document.getElementById("intervalNowPill");
+
+      const modeSelect = document.getElementById("mode");
+      const countValueInput = document.getElementById("countValue");
+      const countSection = document.getElementById("countSection");
+      const hoursSection = document.getElementById("hoursSection");
+
+      const counterPill = document.getElementById("counterPill");
+      const countPlanInfoEl = document.getElementById("countPlanInfo");
+
+      const countMessagesEl = document.getElementById("countMessages");
+      const addCountMessageBtn = document.getElementById("addCountMessage");
+
+      const hoursSlotsEl = document.getElementById("hoursSlots");
+      const addHoursSlotBtn = document.getElementById("addHoursSlot");
+      const hoursSummaryEl = document.getElementById("hoursSummary");
+
+      const audioEl = document.getElementById("beep");
+      const audioCurrentTitleEl = document.getElementById("audioCurrentTitle");
+      const srcInfoEl = document.getElementById("srcInfo");
+      const audioQueueListEl = document.getElementById("audioQueueList");
+      const durInfoEl = document.getElementById("durInfo");
+      const mixedWarningEl = document.getElementById("mixedWarning");
+
+      const infoDialog = document.getElementById("infoDialog");
+      const infoDialogTitle = document.getElementById("infoDialogTitle");
+      const infoDialogText = document.getElementById("infoDialogText");
+      const closeInfoDialogBtn = document.getElementById("closeInfoDialog");
+
+      let currentAudioMeta = null;
+      let durationMs = 0;
+      let minIntervalSeconds = 1;
+      let playingLock = false;
+      let running = false;
+      let loopHandle = null;
+      let playedCount = 0;
+      let remainingPlays = 250;
+      let countMessageIndex = 0;
+      let nextSlotId = 1;
+      let nextPlaybackAt = null;
+      const slotMessageIndexMap = {};
+
+      try {
+        if (location.protocol === "https:" && BASE_URL.startsWith("http://")) {
+          mixedWarningEl.hidden = false;
+        }
+      } catch (_) {}
+
+      const pad2 = (n) => String(n).padStart(2, "0");
+
+      function formatMMSS(totalSec) {
+        const safe = Math.max(0, Math.round(Number(totalSec || 0)));
+        const min = Math.floor(safe / 60);
+        const sec = safe % 60;
+        return `${pad2(min)}:${pad2(sec)}`;
+      }
+
+      function formatDateTime(d) {
+        return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())} • ${d.getFullYear()}-${pad2(d.getMonth()+1)}-${pad2(d.getDate())}`;
+      }
+
+      function renderTime() {
+        const now = new Date();
+        clockEl.textContent = `${pad2(now.getHours())}:${pad2(now.getMinutes())}:${pad2(now.getSeconds())}`;
+        dateEl.textContent = now.toLocaleDateString("pl-PL", {
+          weekday: "long", year: "numeric", month: "long", day: "numeric",
+        });
+      }
+      renderTime();
+      setInterval(renderTime, 1000);
+
+      function getCatalogEntry(fileNo) {
+        return AVAILABLE_MESSAGES.find((item) => item.fileNo === Number(fileNo)) || AVAILABLE_MESSAGES[0];
+      }
+
+      function escapeAttr(value) {
+        return String(value || "")
+          .replaceAll("&", "&amp;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;");
+      }
+
+      function buildUrl(fileNo) {
+        return `${BASE_URL}${Number(fileNo)}.mp3`;
+      }
+
+      function buildFileOptions(selected = 1) {
+        return AVAILABLE_MESSAGES.map((item) => {
+          const sel = Number(item.fileNo) === Number(selected) ? " selected" : "";
+          return `<option value="${item.fileNo}"${sel}>${item.fileNo}.mp3 — ${item.shortDesc}</option>`;
+        }).join("");
+      }
+
+      function messageFromRow(row) {
+        const fileNo = Number(row.querySelector(".fileSelect")?.value || AVAILABLE_MESSAGES[0]?.fileNo || 1);
+        const meta = getCatalogEntry(fileNo);
+        return {
+          fileNo,
+          shortDesc: meta.shortDesc,
+          fullDesc: meta.fullDesc,
+          url: buildUrl(fileNo),
+        };
+      }
+
+      function createMessageRow(fileNo = (AVAILABLE_MESSAGES[0]?.fileNo || 1)) {
+        const row = document.createElement("div");
+        const meta = getCatalogEntry(fileNo);
+        const fullTitle = meta.fullDesc || meta.shortDesc || `${meta.fileNo}.mp3`;
+        row.className = "messageRow";
+        row.title = fullTitle;
+        row.innerHTML = `
+          <div class="messageRowTop">
+            <label class="field">
+              <select class="fileSelect" aria-label="Wybierz komunikat" title="${escapeAttr(fullTitle)}">${buildFileOptions(fileNo)}</select>
+            </label>
+            <button class="btn smallBtn infoButton showInfo" type="button" title="${escapeAttr(fullTitle)}">ℹ</button>
+            <button class="btn smallBtn previewMessage" type="button" title="${escapeAttr(fullTitle)}">Podgląd</button>
+            <button class="btn smallBtn removeMessage" type="button" title="Usuń ten komunikat">Usuń</button>
+          </div>
+        `;
+        return row;
+      }
+
+      function createHoursSlot(start = "08:00", end = "09:00", messages = null) {
+        const slot = document.createElement("div");
+        const slotId = `slot-${nextSlotId++}`;
+        slot.className = "hoursRow";
+        slot.dataset.slotId = slotId;
+        slot.innerHTML = `
+          <div class="hoursRowHead">
+            <label class="field">
+              <span>Od (godzina)</span>
+              <input class="hoursStart" type="time" value="${start}" />
+            </label>
+            <label class="field">
+              <span>Do (godzina)</span>
+              <input class="hoursEnd" type="time" value="${end}" />
+            </label>
+            <button class="btn smallBtn removeHoursSlot" type="button">Usuń przedział</button>
+          </div>
+          <div>
+            <p class="small"><strong>Komunikaty dla tego przedziału</strong></p>
+            <div class="messageList slotMessages"></div>
+            <div class="actions" style="margin-top:10px;">
+              <button class="btn smallBtn addSlotMessage" type="button">Dodaj komunikat do tego przedziału</button>
+            </div>
+          </div>
+        `;
+
+        const list = slot.querySelector(".slotMessages");
+        const files = Array.isArray(messages) && messages.length ? messages : [AVAILABLE_MESSAGES[0]?.fileNo || 1];
+        files.forEach((fileNo) => list.appendChild(createMessageRow(fileNo)));
+        return slot;
+      }
+
+      function normalizeSecondsFieldOnly() {
+        let secs = Number(intervalSecondsInput.value || 0);
+        if (!Number.isFinite(secs)) secs = 0;
+        secs = Math.max(0, Math.min(59, Math.floor(secs)));
+        intervalSecondsInput.value = String(secs);
+      }
+
+      function readIntervalInputsAsSeconds() {
+        const mins = Math.max(0, Math.floor(Number(intervalMinutesInput.value || 0)));
+        let secs = Math.floor(Number(intervalSecondsInput.value || 0));
+        if (!Number.isFinite(secs)) secs = 0;
+        secs = Math.max(0, Math.min(59, secs));
+        return mins * 60 + secs;
+      }
+
+      function setIntervalInputsFromSeconds(totalSec) {
+        const safe = Math.max(0, Math.round(Number(totalSec || 0)));
+        const mins = Math.floor(safe / 60);
+        const secs = safe % 60;
+        intervalMinutesInput.value = String(mins);
+        intervalSecondsInput.value = String(secs);
+        intervalNowPill.textContent = `Ustawione: ${formatMMSS(safe)}`;
+      }
+
+      function clampIntervalInputsToMinimum() {
+        normalizeSecondsFieldOnly();
+        let total = readIntervalInputsAsSeconds();
+        if (total < minIntervalSeconds) total = minIntervalSeconds;
+        setIntervalInputsFromSeconds(total);
+      }
+
+      function previewIntervalInputs() {
+        normalizeSecondsFieldOnly();
+        const total = readIntervalInputsAsSeconds();
+        intervalNowPill.textContent = `Ustawione: ${formatMMSS(total)}`;
+      }
+
+      function getUserIntervalSeconds() {
+        normalizeSecondsFieldOnly();
+        return Math.max(readIntervalInputsAsSeconds(), minIntervalSeconds);
+      }
+
+      function getEffectiveIntervalSeconds() {
+        return Math.max(getUserIntervalSeconds(), minIntervalSeconds);
+      }
+
+      function getEffectiveIntervalMs() {
+        return getEffectiveIntervalSeconds() * 1000;
+      }
+
+      function setAudioFromMessage(message, autoplay = false) {
+        if (!message) return;
+        currentAudioMeta = message;
+        const sameSrc = audioEl.src === message.url;
+        if (!sameSrc) {
+          audioEl.src = message.url;
+          audioEl.load();
+        }
+        audioCurrentTitleEl.textContent = message.shortDesc || `${message.fileNo}.mp3`;
+        srcInfoEl.textContent = `${message.fileNo}.mp3 • ${message.url}`;
+
+        if (autoplay) {
+          audioEl.currentTime = 0;
+          audioEl.play().catch(() => {});
+        }
+
+        updateQueuePreview();
+      }
+
+      function showMessageInfo(message) {
+        if (!message) return;
+        infoDialogTitle.textContent = `${message.fileNo}.mp3 — ${message.shortDesc}`;
+        infoDialogText.textContent = message.fullDesc || "Brak pełnego opisu.";
+        if (typeof infoDialog.showModal === "function") {
+          infoDialog.showModal();
+        } else {
+          alert(`${message.fileNo}.mp3 — ${message.shortDesc}\n\n${message.fullDesc || "Brak pełnego opisu."}`);
+        }
+      }
+
+      closeInfoDialogBtn.addEventListener("click", () => infoDialog.close());
+
+      function updateDurationInfo() {
+        const d = audioEl.duration;
+        if (Number.isFinite(d) && d > 0) {
+          durationMs = Math.round(d * 1000);
+          minIntervalSeconds = Math.max(1, Math.ceil(d));
+          intervalMinPill.textContent = `Minimum: ${formatMMSS(minIntervalSeconds)}`;
+        } else {
+          durationMs = 0;
+          minIntervalSeconds = 1;
+          intervalMinPill.textContent = "Minimum: ładowanie…";
+        }
+
+        clampIntervalInputsToMinimum();
+
+        const effectiveSec = getEffectiveIntervalSeconds();
+        const durationText = (Number.isFinite(d) && d > 0) ? `${d.toFixed(2)} s` : "—";
+        durInfoEl.textContent = `Długość aktualnie wybranego mp3: ${durationText} • Minimalny interwał: ${formatMMSS(minIntervalSeconds)} • Interwał skuteczny: ${formatMMSS(effectiveSec)}`;
+
+        updateCountPreview();
+        updateQueuePreview();
+      }
+
+      audioEl.addEventListener("loadedmetadata", updateDurationInfo);
+      audioEl.addEventListener("durationchange", updateDurationInfo);
+      audioEl.addEventListener("ended", () => { playingLock = false; });
+      audioEl.addEventListener("pause", () => { playingLock = false; });
+
+      function getCountValue() {
+        const v = Math.floor(Number(countValueInput.value || 1));
+        return Math.max(1, v);
+      }
+
+      function getMode() {
+        return modeSelect.value;
+      }
+
+      function getMessagesFromContainer(container) {
+        return Array.from(container.querySelectorAll(".messageRow")).map(messageFromRow);
+      }
+
+      function ensureAtLeastOneMessageRow(container) {
+        if (!container.querySelector(".messageRow")) {
+          container.appendChild(createMessageRow(AVAILABLE_MESSAGES[0]?.fileNo || 1));
+        }
+      }
+
+      function refreshMessageRowTitle(row) {
+        if (!row) return;
+        const message = messageFromRow(row);
+        const fullTitle = message.fullDesc || message.shortDesc || `${message.fileNo}.mp3`;
+        row.title = fullTitle;
+
+        const select = row.querySelector(".fileSelect");
+        const infoBtn = row.querySelector(".showInfo");
+        const previewBtn = row.querySelector(".previewMessage");
+
+        if (select) select.title = fullTitle;
+        if (infoBtn) infoBtn.title = fullTitle;
+        if (previewBtn) previewBtn.title = fullTitle;
+      }
+
+      function getCountMessages() {
+        return getMessagesFromContainer(countMessagesEl);
+      }
+
+      function getHoursRows() {
+        return Array.from(hoursSlotsEl.querySelectorAll(".hoursRow"));
+      }
+
+      function getPreviewCounterState() {
+        if (getMode() !== "count") {
+          return { played: 0, remaining: 0, total: 0, fromNow: 0 };
+        }
+
+        if (running) {
+          return {
+            played: playedCount,
+            remaining: remainingPlays,
+            total: playedCount + remainingPlays,
+            fromNow: remainingPlays,
+          };
+        }
+
+        const remaining = getCountValue();
+        return {
+          played: 0,
+          remaining,
+          total: remaining,
+          fromNow: remaining,
+        };
+      }
+
+      function updateCountPreview() {
+        if (getMode() !== "count") {
+          counterPill.textContent = "—";
+          countPlanInfoEl.textContent = "";
+          return;
+        }
+
+        const state = getPreviewCounterState();
+        counterPill.textContent = `${state.played} / ${state.total} (pozostało: ${state.remaining})`;
+
+        if (state.fromNow <= 0) {
+          countPlanInfoEl.textContent = "Od teraz: brak zaplanowanych odtworzeń.";
+          return;
+        }
+
+        const lastPlayAt = new Date(Date.now() + Math.max(0, state.fromNow - 1) * getEffectiveIntervalMs());
+        const messagesCount = Math.max(1, getCountMessages().length);
+        countPlanInfoEl.textContent = `Od teraz: ${state.fromNow} odtworzeń • komunikatów w pętli: ${messagesCount} • ostatnie planowane: ${formatDateTime(lastPlayAt)}`;
+      }
+
+      function parseTimeToMinutes(t) {
+        const parts = String(t || "").split(":");
+        const h = Math.min(23, Math.max(0, Number(parts[0] || 0)));
+        const m = Math.min(59, Math.max(0, Number(parts[1] || 0)));
+        return h * 60 + m;
+      }
+
+      function minutesToTimeStr(totalMinutes) {
+        const safe = ((Math.round(totalMinutes) % 1440) + 1440) % 1440;
+        const h = Math.floor(safe / 60);
+        const m = safe % 60;
+        return `${pad2(h)}:${pad2(m)}`;
+      }
+
+      function isWithinSlot(slotData, now) {
+        const n = now.getHours() * 60 + now.getMinutes();
+        if (slotData.startMin === slotData.endMin) return true;
+        if (slotData.startMin < slotData.endMin) return n >= slotData.startMin && n < slotData.endMin;
+        return n >= slotData.startMin || n < slotData.endMin;
+      }
+
+      function getHoursSlotData(row) {
+        const start = row.querySelector(".hoursStart")?.value || "08:00";
+        const end = row.querySelector(".hoursEnd")?.value || "09:00";
+        const messagesContainer = row.querySelector(".slotMessages");
+        const messages = getMessagesFromContainer(messagesContainer);
+        return {
+          row,
+          slotId: row.dataset.slotId,
+          start,
+          end,
+          startMin: parseTimeToMinutes(start),
+          endMin: parseTimeToMinutes(end),
+          messages,
+        };
+      }
+
+      function getActiveHourSlots(now) {
+        return getHoursRows()
+          .map(getHoursSlotData)
+          .filter((slot) => slot.messages.length > 0 && isWithinSlot(slot, now));
+      }
+
+      function nextSlotStartDate(slot, now) {
+        const startToday = new Date(now);
+        startToday.setHours(Math.floor(slot.startMin / 60), slot.startMin % 60, 0, 0);
+
+        const n = now.getHours() * 60 + now.getMinutes();
+
+        if (slot.startMin === slot.endMin) return startToday;
+
+        if (slot.startMin < slot.endMin) {
+          if (n < slot.startMin) return startToday;
+          const startTomorrow = new Date(startToday);
+          startTomorrow.setDate(startTomorrow.getDate() + 1);
+          return startTomorrow;
+        }
+
+        if (n >= slot.endMin && n < slot.startMin) {
+          return startToday;
+        }
+
+        const startTomorrow = new Date(startToday);
+        startTomorrow.setDate(startTomorrow.getDate() + 1);
+        return startTomorrow;
+      }
+
+      function nextWindowStart(now) {
+        const slots = getHoursRows().map(getHoursSlotData).filter((slot) => slot.messages.length > 0);
+        if (!slots.length) return now;
+
+        let best = null;
+        for (const slot of slots) {
+          const candidate = nextSlotStartDate(slot, now);
+          if (!best || candidate.getTime() < best.getTime()) best = candidate;
+        }
+        return best || now;
+      }
+
+      function updateHoursSummary() {
+        const rows = getHoursRows();
+        if (!rows.length) {
+          hoursSummaryEl.textContent = "Brak aktywnych przedziałów.";
+          return;
+        }
+
+        const parts = rows.map((row) => {
+          const data = getHoursSlotData(row);
+          return `${data.start}–${data.end} (${data.messages.length} komunik.)`;
+        });
+
+        hoursSummaryEl.textContent = `Aktywne przedziały: ${parts.join(" • ")}`;
+      }
+
+      function getSuggestedNextSlot() {
+        const rows = getHoursRows();
+        if (!rows.length) return { start: "08:00", end: "09:00" };
+
+        const last = getHoursSlotData(rows[rows.length - 1]);
+        const start = last.endMin;
+        const end = (start + 60) % 1440;
+        return {
+          start: minutesToTimeStr(start),
+          end: minutesToTimeStr(end),
+        };
+      }
+
+      function setStatus(text) {
+        statusEl.hidden = false;
+        statusEl.textContent = text;
+      }
+
+      function hideStatus() {
+        statusEl.hidden = true;
+      }
+
+      function msUntilAudioEnds() {
+        if (audioEl.paused) return 0;
+        const d = audioEl.duration;
+        if (Number.isFinite(d) && d > 0) {
+          const left = (d - audioEl.currentTime) * 1000;
+          return Math.max(250, Math.ceil(left));
+        }
+        return 1000;
+      }
+
+      async function playMessage(message) {
+        if (playingLock && !audioEl.paused) {
+          return { started: false, reason: "playing" };
+        }
+
+        playingLock = true;
+        setAudioFromMessage(message, false);
+
+        try {
+          audioEl.currentTime = 0;
+          await audioEl.play();
+          return { started: true, reason: "ok" };
+        } catch (err) {
+          playingLock = false;
+          return { started: false, reason: "error" };
+        }
+      }
+
+      function getNextCountMessage() {
+        const messages = getCountMessages();
+        if (!messages.length) return null;
+        const idx = countMessageIndex % messages.length;
+        return messages[idx];
+      }
+
+      function advanceCountMessageIndex() {
+        const messages = getCountMessages();
+        if (!messages.length) return;
+        countMessageIndex = (countMessageIndex + 1) % messages.length;
+      }
+
+      function getNextHoursMessage(now) {
+        const activeSlots = getActiveHourSlots(now);
+        if (!activeSlots.length) return null;
+
+        const slot = activeSlots[0];
+        const idx = slotMessageIndexMap[slot.slotId] || 0;
+        const msg = slot.messages[idx % slot.messages.length];
+        return { slotId: slot.slotId, message: msg, slotLabel: `${slot.start}–${slot.end}`, messagesCount: slot.messages.length };
+      }
+
+      function advanceHoursMessageIndex(slotId, messagesCount) {
+        if (!slotId || !messagesCount) return;
+        const current = slotMessageIndexMap[slotId] || 0;
+        slotMessageIndexMap[slotId] = (current + 1) % messagesCount;
+      }
+
+      function getQueueBaseSeconds() {
+        if (running && nextPlaybackAt) {
+          return Math.max(0, Math.ceil((nextPlaybackAt - Date.now()) / 1000));
+        }
+        return getEffectiveIntervalSeconds();
+      }
+
+      function getQueueMessagesForPreview() {
+        if (getMode() === "count") {
+          const messages = getCountMessages();
+          if (!messages.length) return [];
+          let startIdx = 0;
+          if (running) {
+            startIdx = countMessageIndex % messages.length;
+          } else if (currentAudioMeta) {
+            const idx = messages.findIndex((m) => Number(m.fileNo) === Number(currentAudioMeta.fileNo));
+            startIdx = idx >= 0 ? (idx + 1) % messages.length : 0;
+          }
+          const list = [];
+          for (let i = 0; i < messages.length; i += 1) {
+            list.push(messages[(startIdx + i) % messages.length]);
+          }
+          return list;
+        }
+
+        const now = new Date();
+        let slot = getActiveHourSlots(now)[0];
+        if (!slot) {
+          slot = getHoursRows().map(getHoursSlotData).find((item) => item.messages.length > 0);
+        }
+        if (!slot) return [];
+
+        let startIdx = 0;
+        if (running) {
+          startIdx = (slotMessageIndexMap[slot.slotId] || 0) % slot.messages.length;
+        } else if (currentAudioMeta) {
+          const idx = slot.messages.findIndex((m) => Number(m.fileNo) === Number(currentAudioMeta.fileNo));
+          startIdx = idx >= 0 ? (idx + 1) % slot.messages.length : 0;
+        }
+
+        const list = [];
+        for (let i = 0; i < slot.messages.length; i += 1) {
+          list.push(slot.messages[(startIdx + i) % slot.messages.length]);
+        }
+        return list;
+      }
+
+      function updateQueuePreview() {
+        if (currentAudioMeta) {
+          audioCurrentTitleEl.textContent = currentAudioMeta.shortDesc || `${currentAudioMeta.fileNo}.mp3`;
+          srcInfoEl.textContent = `${currentAudioMeta.fileNo}.mp3 • ${currentAudioMeta.url}`;
+        } else {
+          audioCurrentTitleEl.textContent = "Brak wybranego komunikatu";
+          srcInfoEl.textContent = "Wybierz komunikat do podglądu.";
+        }
+
+        const queue = getQueueMessagesForPreview().filter((m) => !currentAudioMeta || Number(m.fileNo) !== Number(currentAudioMeta.fileNo));
+        if (!queue.length) {
+          audioQueueListEl.innerHTML = `<div class="audioSubtle">Brak innych wybranych komunikatów.</div>`;
+          return;
+        }
+
+        const baseSec = getQueueBaseSeconds();
+        const intervalSec = getEffectiveIntervalSeconds();
+        audioQueueListEl.innerHTML = queue.map((message, idx) => {
+          const sec = baseSec + (idx * intervalSec);
+          return `
+            <div class="queueItem">
+              <div>${message.shortDesc}</div>
+              <div class="queueTimer">za ${sec} s</div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      async function loop() {
+        if (!running) return;
+
+        updateDurationInfo();
+
+        if (getMode() === "count") {
+          if (remainingPlays <= 0) {
+            stop();
+            return;
+          }
+
+          const nextMessage = getNextCountMessage();
+          if (!nextMessage) {
+            setStatus("Brak komunikatów do odtworzenia w trybie Powtórzenia.");
+            nextPlaybackAt = Date.now() + 2000;
+            updateQueuePreview();
+            loopHandle = setTimeout(loop, 2000);
+            return;
+          }
+
+          const res = await playMessage(nextMessage);
+
+          if (res.started) {
+            playedCount += 1;
+            remainingPlays = Math.max(0, remainingPlays - 1);
+            countValueInput.value = String(remainingPlays);
+            advanceCountMessageIndex();
+            updateCountPreview();
+            setStatus(`Odtwarzam: ${nextMessage.fileNo}.mp3 — ${nextMessage.shortDesc} • pozostało: ${remainingPlays}`);
+
+            nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+            updateQueuePreview();
+            saveState();
+            loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+            return;
+          }
+
+          if (res.reason === "playing") {
+            const wait = msUntilAudioEnds();
+            nextPlaybackAt = Date.now() + wait;
+            setStatus("Blokada: czekam na koniec aktualnego dźwięku…");
+            updateQueuePreview();
+            loopHandle = setTimeout(loop, wait);
+            return;
+          }
+
+          setStatus(`Nie mogę odtworzyć ${nextMessage.fileNo}.mp3. Sprawdź plik lub mixed content.`);
+          stop();
+          return;
+        }
+
+        const now = new Date();
+        const nextHours = getNextHoursMessage(now);
+
+        if (!nextHours) {
+          const next = nextWindowStart(now);
+          const sameMoment = Math.abs(next.getTime() - now.getTime()) < 1500;
+          if (sameMoment) {
+            nextPlaybackAt = Date.now() + 5000;
+            setStatus("Brak komunikatów przypisanych do aktywnego przedziału godzinowego.");
+            updateQueuePreview();
+            loopHandle = setTimeout(loop, 5000);
+            return;
+          }
+
+          nextPlaybackAt = next.getTime();
+          setStatus(`Poza godzinami. Następny start: ${formatDateTime(next)}.`);
+          updateQueuePreview();
+          loopHandle = setTimeout(loop, Math.max(1000, next.getTime() - Date.now()));
+          return;
+        }
+
+        const res = await playMessage(nextHours.message);
+
+        if (res.started) {
+          advanceHoursMessageIndex(nextHours.slotId, nextHours.messagesCount);
+          setStatus(`Odtwarzam: ${nextHours.message.fileNo}.mp3 — ${nextHours.message.shortDesc} • przedział ${nextHours.slotLabel}`);
+          nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          updateQueuePreview();
+          saveState();
+          loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+          return;
+        }
+
+        if (res.reason === "playing") {
+          const wait = msUntilAudioEnds();
+          nextPlaybackAt = Date.now() + wait;
+          setStatus("Blokada: czekam na koniec aktualnego dźwięku…");
+          updateQueuePreview();
+          loopHandle = setTimeout(loop, wait);
+          return;
+        }
+
+        setStatus(`Nie mogę odtworzyć ${nextHours.message.fileNo}.mp3. Sprawdź plik lub mixed content.`);
+        stop();
+      }
+
+      function start() {
+        if (running) return;
+        running = true;
+        clampIntervalInputsToMinimum();
+        playedCount = 0;
+        remainingPlays = getCountValue();
+        countMessageIndex = 0;
+        nextPlaybackAt = Date.now();
+
+        if (getMode() === "count") {
+          updateCountPreview();
+        } else {
+          updateHoursSummary();
+        }
+
+        setStatus("Start…");
+        toggleBtn.textContent = "Stop";
+        updateQueuePreview();
+        loopHandle = setTimeout(loop, 0);
+      }
+
+      function stop() {
+        if (!running) return;
+        running = false;
+
+        if (loopHandle) clearTimeout(loopHandle);
+        loopHandle = null;
+        nextPlaybackAt = null;
+
+        toggleBtn.textContent = "Start";
+        hideStatus();
+        updateCountPreview();
+        updateQueuePreview();
+      }
+
+      function syncModeUI() {
+        const m = getMode();
+
+        if (m === "count") {
+          countSection.classList.remove("hidden");
+          hoursSection.classList.add("hidden");
+          document.getElementById("countStatsCard")?.classList.remove("hidden");
+        } else {
+          countSection.classList.add("hidden");
+          hoursSection.classList.remove("hidden");
+          document.getElementById("countStatsCard")?.classList.add("hidden");
+        }
+
+        updateCountPreview();
+        updateHoursSummary();
+        syncAudioPreviewToCurrentMode();
+      }
+
+      function syncAudioPreviewToCurrentMode() {
+        if (currentAudioMeta) {
+          updateQueuePreview();
+          return;
+        }
+
+        if (getMode() === "count") {
+          const messages = getCountMessages();
+          if (messages.length) setAudioFromMessage(messages[0], false);
+          return;
+        }
+
+        const firstSlot = getHoursRows()[0];
+        if (!firstSlot) return;
+        const messages = getMessagesFromContainer(firstSlot.querySelector(".slotMessages"));
+        if (messages.length) setAudioFromMessage(messages[0], false);
+      }
+
+      function restartLoopIfNeeded() {
+        if (!running) return;
+        if (loopHandle) clearTimeout(loopHandle);
+        nextPlaybackAt = Date.now();
+        loopHandle = setTimeout(loop, 0);
+      }
+
+      function handleMessageListClick(event, rootContainer) {
+        const previewBtn = event.target.closest(".previewMessage");
+        if (previewBtn) {
+          const row = previewBtn.closest(".messageRow");
+          if (!row) return;
+          setAudioFromMessage(messageFromRow(row), true);
+          saveState();
+          return;
+        }
+
+        const infoBtn = event.target.closest(".showInfo");
+        if (infoBtn) {
+          const row = infoBtn.closest(".messageRow");
+          if (!row) return;
+          showMessageInfo(messageFromRow(row));
+          return;
+        }
+
+        const removeBtn = event.target.closest(".removeMessage");
+        if (removeBtn) {
+          const row = removeBtn.closest(".messageRow");
+          row?.remove();
+          ensureAtLeastOneMessageRow(rootContainer);
+          updateCountPreview();
+          updateHoursSummary();
+          syncAudioPreviewToCurrentMode();
+          saveState();
+          restartLoopIfNeeded();
+        }
+      }
+
+      function handleMessageListChange(event) {
+        if (event.target.matches(".fileSelect")) {
+          const row = event.target.closest(".messageRow");
+          if (!row) return;
+          refreshMessageRowTitle(row);
+          setAudioFromMessage(messageFromRow(row), false);
+          updateCountPreview();
+          updateHoursSummary();
+          saveState();
+        }
+      }
+
+      function collectState() {
+        return {
+          mode: modeSelect.value,
+          countValue: String(getCountValue()),
+          intervalMinutes: String(intervalMinutesInput.value || "5"),
+          intervalSeconds: String(intervalSecondsInput.value || "0"),
+          countMessages: Array.from(countMessagesEl.querySelectorAll(".fileSelect")).map((el) => Number(el.value)),
+          hoursSlots: getHoursRows().map((row) => {
+            return {
+              start: row.querySelector(".hoursStart")?.value || "08:00",
+              end: row.querySelector(".hoursEnd")?.value || "09:00",
+              messages: Array.from(row.querySelectorAll(".slotMessages .fileSelect")).map((el) => Number(el.value)),
+            };
+          }),
+          currentPreviewFileNo: currentAudioMeta?.fileNo || null,
+        };
+      }
+
+      function saveState() {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(collectState()));
+        } catch (_) {}
+      }
+
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (_) {
+          return null;
+        }
+      }
+
+      function applyState(state) {
+        if (!state) return false;
+
+        modeSelect.value = state.mode === "hours" ? "hours" : "count";
+        countValueInput.value = String(Math.max(1, Number(state.countValue || 250)));
+        intervalMinutesInput.value = String(Math.max(0, Number(state.intervalMinutes || 5)));
+        intervalSecondsInput.value = String(Math.max(0, Math.min(59, Number(state.intervalSeconds || 0))));
+
+        countMessagesEl.innerHTML = "";
+        const countMessages = Array.isArray(state.countMessages) && state.countMessages.length
+          ? state.countMessages
+          : [AVAILABLE_MESSAGES[0]?.fileNo || 1];
+        countMessages.forEach((fileNo) => countMessagesEl.appendChild(createMessageRow(getCatalogEntry(fileNo).fileNo)));
+
+        hoursSlotsEl.innerHTML = "";
+        const slots = Array.isArray(state.hoursSlots) && state.hoursSlots.length
+          ? state.hoursSlots
+          : [{ start: "08:00", end: "09:00", messages: [AVAILABLE_MESSAGES[0]?.fileNo || 1] }];
+
+        slots.forEach((slot) => {
+          hoursSlotsEl.appendChild(createHoursSlot(
+            slot.start || "08:00",
+            slot.end || "09:00",
+            Array.isArray(slot.messages) && slot.messages.length
+              ? slot.messages.map((fileNo) => getCatalogEntry(fileNo).fileNo)
+              : [AVAILABLE_MESSAGES[0]?.fileNo || 1]
+          ));
+        });
+
+        countMessagesEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
+        hoursSlotsEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
+
+        const previewNo = state.currentPreviewFileNo ? getCatalogEntry(state.currentPreviewFileNo).fileNo : null;
+        if (previewNo) {
+          setAudioFromMessage(getCatalogEntry(previewNo), false);
+        }
+
+        return true;
+      }
+
+      function resetMemory() {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch (_) {}
+        location.reload();
+      }
+
+      clearMemoryBtn.addEventListener("click", resetMemory);
+
+      toggleBtn.addEventListener("click", () => {
+        if (running) stop();
+        else start();
+      });
+
+      intervalMinutesInput.addEventListener("input", () => {
+        previewIntervalInputs();
+        saveState();
+      });
+      intervalSecondsInput.addEventListener("input", () => {
+        previewIntervalInputs();
+        saveState();
+      });
+      intervalMinutesInput.addEventListener("change", () => {
+        clampIntervalInputsToMinimum();
+        updateDurationInfo();
+        saveState();
+      });
+      intervalSecondsInput.addEventListener("change", () => {
+        clampIntervalInputsToMinimum();
+        updateDurationInfo();
+        saveState();
+      });
+      intervalMinutesInput.addEventListener("blur", () => {
+        clampIntervalInputsToMinimum();
+        updateDurationInfo();
+        saveState();
+      });
+      intervalSecondsInput.addEventListener("blur", () => {
+        clampIntervalInputsToMinimum();
+        updateDurationInfo();
+        saveState();
+      });
+
+      modeSelect.addEventListener("change", () => {
+        const wasRunning = running;
+        if (wasRunning) stop();
+        syncModeUI();
+        saveState();
+        if (wasRunning) start();
+      });
+
+      countValueInput.addEventListener("input", () => {
+        if (running) {
+          remainingPlays = getCountValue();
+        }
+        updateCountPreview();
+        saveState();
+      });
+
+      countValueInput.addEventListener("change", () => {
+        countValueInput.value = String(getCountValue());
+        if (running) {
+          remainingPlays = getCountValue();
+        }
+        updateCountPreview();
+        saveState();
+      });
+
+      addCountMessageBtn.addEventListener("click", () => {
+        const fallbackNo = AVAILABLE_MESSAGES[Math.min(AVAILABLE_MESSAGES.length - 1, countMessagesEl.querySelectorAll(".messageRow").length)]?.fileNo || AVAILABLE_MESSAGES[0]?.fileNo || 1;
+        countMessagesEl.appendChild(createMessageRow(fallbackNo));
+        updateCountPreview();
+        saveState();
+      });
+
+      countMessagesEl.addEventListener("click", (event) => handleMessageListClick(event, countMessagesEl));
+      countMessagesEl.addEventListener("change", handleMessageListChange);
+
+      addHoursSlotBtn.addEventListener("click", () => {
+        const next = getSuggestedNextSlot();
+        hoursSlotsEl.appendChild(createHoursSlot(next.start, next.end));
+        updateHoursSummary();
+        saveState();
+        restartLoopIfNeeded();
+      });
+
+      hoursSlotsEl.addEventListener("click", (event) => {
+        const addBtn = event.target.closest(".addSlotMessage");
+        if (addBtn) {
+          const slot = addBtn.closest(".hoursRow");
+          const list = slot?.querySelector(".slotMessages");
+          if (list) {
+            const fallbackNo = AVAILABLE_MESSAGES[Math.min(AVAILABLE_MESSAGES.length - 1, list.querySelectorAll(".messageRow").length)]?.fileNo || AVAILABLE_MESSAGES[0]?.fileNo || 1;
+            list.appendChild(createMessageRow(fallbackNo));
+            updateHoursSummary();
+            syncAudioPreviewToCurrentMode();
+            saveState();
+          }
+          return;
+        }
+
+        const removeSlotBtn = event.target.closest(".removeHoursSlot");
+        if (removeSlotBtn) {
+          const rows = getHoursRows();
+          if (rows.length <= 1) {
+            hoursSlotsEl.innerHTML = "";
+            hoursSlotsEl.appendChild(createHoursSlot("08:00", "09:00"));
+          } else {
+            removeSlotBtn.closest(".hoursRow")?.remove();
+          }
+          updateHoursSummary();
+          syncAudioPreviewToCurrentMode();
+          saveState();
+          restartLoopIfNeeded();
+          return;
+        }
+
+        const slotRow = event.target.closest(".hoursRow");
+        const list = slotRow?.querySelector(".slotMessages");
+        if (list) handleMessageListClick(event, list);
+      });
+
+      hoursSlotsEl.addEventListener("change", (event) => {
+        if (event.target.matches(".hoursStart, .hoursEnd")) {
+          updateHoursSummary();
+          saveState();
+          restartLoopIfNeeded();
+          return;
+        }
+
+        const slotRow = event.target.closest(".hoursRow");
+        if (!slotRow) return;
+        const list = slotRow.querySelector(".slotMessages");
+        if (!list) return;
+        handleMessageListChange(event);
+      });
+
+      setInterval(() => {
+        updateQueuePreview();
+      }, 1000);
+
+      const restored = applyState(loadState());
+
+      if (!restored) {
+        countMessagesEl.appendChild(createMessageRow(AVAILABLE_MESSAGES[0]?.fileNo || 1));
+        hoursSlotsEl.appendChild(createHoursSlot("08:00", "09:00"));
+        setIntervalInputsFromSeconds(300);
+        countValueInput.value = "250";
+        setAudioFromMessage(AVAILABLE_MESSAGES[0], false);
+        saveState();
+      }
+
+      countMessagesEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
+      hoursSlotsEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
+
+      updateCountPreview();
+      updateHoursSummary();
+      syncModeUI();
+      updateDurationInfo();
+      updateQueuePreview();
+    })();
+  </script>
+</body>
+</html>
