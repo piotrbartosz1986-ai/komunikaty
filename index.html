@@ -30,16 +30,21 @@
       gap:16px;
       padding:0;
     }
-    .topBar {
+    .topBar{
       display:grid;
       grid-template-columns:auto 1fr;
       align-items:center;
       gap:16px;
+      width:calc(100% + 170px);
+      max-width:calc(100% + 170px);
+      margin-left:-170px;
     }
     .logo {
       width:min(320px,42vw);
       height:auto;
       justify-self:start;
+      margin-left:0;
+      display:block;
     }
     .time {
       justify-self:end;
@@ -57,7 +62,7 @@
     }
     @media (max-width:760px) {
       .topBar {
-        grid-template-columns:1fr;
+        grid-template-columns:repeat(4, minmax(0,1fr)) 120px;
       }
       .logo, .time {
         justify-self:center;
@@ -67,7 +72,7 @@
     .topActions{
       margin-top:10px;
       display:flex;
-      gap:10px;
+      gap:6px;
       justify-content:flex-end;
       align-items:center;
     }
@@ -100,7 +105,7 @@
     }
     .row {
       display:grid;
-      gap:12px;
+      gap:6px;
       grid-template-columns:1fr;
     }
     @media (min-width:760px) {
@@ -173,13 +178,13 @@
       padding:8px 10px;
     }
     .audioWrap {
-      padding:12px;
+      padding:10px;
       border-radius:12px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.14);
       text-align:left;
       display:grid;
-      gap:8px;
+      gap:6px;
     }
     .audioCurrentTitle {
       margin:0;
@@ -206,7 +211,7 @@
     }
     .queueStatsGrid{
       display:grid;
-      gap:12px;
+      gap:6px;
       grid-template-columns:1.2fr .9fr;
       align-items:start;
       margin-top:4px;
@@ -226,7 +231,7 @@
     .queueCardTitle,
     .statsCardTitle{
       margin:0 0 8px 0;
-      font-size:.9rem;
+      font-size:.82rem;
       font-weight:800;
       opacity:.95;
     }
@@ -238,7 +243,7 @@
     .queueItem {
       display:grid;
       grid-template-columns:1fr auto;
-      gap:10px;
+      gap:6px;
       align-items:center;
       padding:6px 8px;
       border-radius:10px;
@@ -252,7 +257,7 @@
     }
     .intervalBox {
       display:grid;
-      gap:8px;
+      gap:6px;
       grid-template-columns:1fr 1fr;
       align-items:end;
     }
@@ -278,7 +283,7 @@
     }
     .section {
       display:grid;
-      gap:10px;
+      gap:6px;
       padding-top:4px;
       text-align:left;
     }
@@ -294,32 +299,32 @@
     }
     .inlineNote {
       display:flex;
-      gap:8px;
+      gap:6px;
       flex-wrap:wrap;
       align-items:center;
       text-align:left;
     }
     .counterBox {
       display:grid;
-      gap:8px;
+      gap:6px;
       align-content:start;
     }
     .messageList,
     .hoursSlots {
       display:grid;
-      gap:10px;
+      gap:6px;
     }
     .messageRow {
       display:grid;
-      gap:10px;
-      padding:12px;
+      gap:6px;
+      padding:10px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.18);
       background:rgba(0,0,0,.10);
     }
     .messageRowTop {
       display:grid;
-      gap:10px;
+      gap:6px;
       grid-template-columns:minmax(300px,1fr) auto auto auto;
       align-items:end;
     }
@@ -330,15 +335,15 @@
     }
     .hoursRow {
       display:grid;
-      gap:10px;
-      padding:12px;
+      gap:6px;
+      padding:10px;
       border-radius:12px;
       border:1px solid rgba(255,255,255,.18);
       background:rgba(0,0,0,.10);
     }
     .hoursRowHead {
       display:grid;
-      gap:10px;
+      gap:6px;
       grid-template-columns:1fr 1fr auto;
       align-items:end;
     }
@@ -349,7 +354,7 @@
     }
     .actions {
       display:flex;
-      gap:10px;
+      gap:6px;
       flex-wrap:wrap;
       justify-content:flex-start;
     }
@@ -369,7 +374,7 @@
     .dialogBody {
       padding:18px;
       display:grid;
-      gap:12px;
+      gap:6px;
     }
     .dialogTitle {
       margin:0;
@@ -390,10 +395,10 @@
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
   
-    .settingsGrid{ display:grid; gap:10px; }
+    .settingsGrid{ display:grid; gap:6px; }
     .settingsRow{
       display:grid;
-      gap:10px;
+      gap:6px;
       grid-template-columns: minmax(120px,1.2fr) minmax(0,1fr) minmax(0,1fr);
       align-items:center;
     }
@@ -401,7 +406,7 @@
       .settingsRow{ grid-template-columns:1fr; }
     }
     .dayLabel{ font-weight:800; opacity:.9; }
-    .inlineCheck{ display:flex; align-items:center; gap:10px; margin:0; }
+    .inlineCheck{ display:flex; align-items:center; gap:6px; margin:0; }
     .tradingText{
       width:100%;
       min-height:64px;
@@ -409,11 +414,11 @@
       border-radius:10px;
       border:1px solid rgba(0,0,0,.18);
     }
-    .closingGrid{ display:grid; gap:8px; margin-top:6px; }
+    .closingGrid{ display:grid; gap:6px; margin-top:6px; }
     .closingRow{
       display:grid;
       grid-template-columns:auto 1fr;
-      gap:10px;
+      gap:6px;
       align-items:center;
       padding:8px 10px;
       border-radius:12px;
@@ -424,7 +429,7 @@
   
     .tripleDatesGrid{
       display:grid;
-      gap:12px;
+      gap:6px;
       grid-template-columns:repeat(3, minmax(0,1fr));
       align-items:start;
     }
@@ -435,7 +440,7 @@
     }
     .tripleDatesCol{
       display:grid;
-      gap:8px;
+      gap:6px;
       min-width:0;
     }
 
@@ -562,42 +567,47 @@
         border-radius:12px;
       }
       .dialogBody{
-        padding:12px;
+        padding:10px;
       }
     }
 
   
     .mainLayout{
       display:grid;
-      grid-template-columns:minmax(260px,320px) minmax(0,1fr);
+      width:calc(100% + 170px);
+      max-width:calc(100% + 170px);
+      margin-left:-170px;
+      grid-template-columns: 510px minmax(0, 1fr);
       gap:16px;
       align-items:start;
     }
     .quickPanel{
       display:grid;
-      gap:12px;
-      padding:14px;
+      gap:6px;
+      padding:10px;
       background:var(--card);
       border-radius:14px;
       border:1px solid rgba(255,255,255,.12);
       align-self:start;
       position:sticky;
       top:8px;
+      min-width:0;
     }
     .quickPanelTitle{
       margin:0;
-      font-size:1.05rem;
-      font-weight:900;
+      font-size:.92rem;
+      font-weight:400;
     }
     .quickSectionTitle{
       margin:2px 0 0 0;
-      font-size:.95rem;
+      font-size:.82rem;
       font-weight:800;
       opacity:.95;
     }
     .quickButtons{
       display:grid;
-      gap:10px;
+      gap:6px;
+      min-width:0;
     }
     .quickBtn{
       border:none;
@@ -609,12 +619,7 @@
       cursor:pointer;
       box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);
     }
-    .quickBtn small{
-      display:block;
-      margin-top:4px;
-      font-weight:700;
-      opacity:.9;
-    }
+    .quickBtn small{ display:none; }
     .quickBtn:focus-visible{
       outline:3px solid rgba(255,255,255,.55);
       outline-offset:2px;
@@ -631,17 +636,307 @@
       background:rgba(0,0,0,.12);
       overflow-wrap:anywhere;
     }
+    .quickGroups{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:6px;
+      align-items:start;
+      min-width:0;
+    }
+    .quickGroup{
+      display:grid;
+      gap:6px;
+      min-width:0;
+    }
+    .quickGroupWorkers{
+      grid-column:1 / 5;
+    }
+    .quickGroupCash{
+      grid-column:5;
+    }
+    .quickButtonsWorkers{
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      align-items:stretch;
+    }
+    .quickButtonsCash{
+      grid-template-columns:1fr;
+    }
+    .quickBtn{
+      min-height:92px;
+      aspect-ratio:1 / 1;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
+      overflow:hidden;
+      padding:8px;
+      font-size:.61rem;
+      line-height:1.08;
+      border-radius:10px;
+    }
     .contentCol{
       min-width:0;
       display:grid;
       gap:16px;
     }
+    @media (max-width: 1500px){
+      .mainLayout{
+        width:calc(100% + 170px);
+        max-width:calc(100% + 170px);
+        margin-left:-170px;
+        grid-template-columns: 510px minmax(0, 1fr);
+      }
+      .quickButtonsWorkers{
+        grid-template-columns:repeat(4, minmax(0,1fr));
+      }
+    }
     @media (max-width: 1100px){
       .mainLayout{
+        width:100%;
+        max-width:100%;
+        margin-left:0;
         grid-template-columns:1fr;
       }
       .quickPanel{
         position:static;
+      }
+      .quickGroups{
+        grid-template-columns:1fr;
+      }
+      .quickGroupWorkers,
+      .quickGroupCash{
+        grid-column:auto;
+      }
+      .quickButtonsWorkers{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+      .quickButtonsCash{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+      .quickBtn{
+        aspect-ratio:auto;
+        min-height:70px;
+      }
+    }
+    @media (max-width: 700px){
+      .quickButtonsWorkers,
+      .quickButtonsCash{
+        grid-template-columns:1fr;
+      }
+    }
+
+  
+    .quickBtn{
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+
+  
+    .quickBtn{
+      word-break:break-word;
+      overflow-wrap:anywhere;
+    }
+    .quickBtn small{
+      display:none !important;
+    }
+
+  
+    /* mocne poprawki mobile */
+    @media (max-width: 760px){
+      html, body{
+            max-width:100%;
+            overflow-x:hidden;
+          }
+      .app{
+            max-width:100%;
+            overflow-x:hidden;
+          }
+
+      body{
+        padding:8px !important;
+      }
+      .topBar{
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        grid-template-columns:1fr !important;
+        gap:10px !important;
+      }
+      .logo{
+        justify-self:flex-start !important;
+        text-align:left !important;
+        width:min(240px, 58vw) !important;
+        height:auto !important;
+        max-width:100% !important;
+      }
+      .time{
+        justify-self:stretch !important;
+        text-align:left !important;
+      }
+      .clock{
+        font-size:clamp(2.2rem, 14vw, 4rem) !important;
+      }
+      .date{
+        font-size:clamp(1rem, 4.8vw, 1.2rem) !important;
+      }
+      .topActions{
+        display:grid !important;
+        grid-template-columns:minmax(0,1fr) 56px !important;
+        gap:10px !important;
+        width:100% !important;
+        justify-content:stretch !important;
+      }
+      .topBtn{
+        width:100% !important;
+      }
+      .iconBtn{
+        width:56px !important;
+        height:44px !important;
+      }
+
+      .mainLayout{
+        width:100% !important;
+        max-width:100% !important;
+        margin-left:0 !important;
+        grid-template-columns:1fr !important;
+        gap:12px !important;
+      }
+      .quickPanel,
+      .contentCol,
+      .controls,
+      .audioWrap,
+      .queueCard,
+      .statsCard,
+      .messageRow,
+      .hoursRow{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+      }
+      .quickPanel{
+        position:static !important;
+        padding:10px !important;
+      }
+      .quickGroups{
+        grid-template-columns:1fr !important;
+        gap:8px !important;
+      }
+      .quickGroupWorkers,
+      .quickGroupCash{
+        grid-column:auto !important;
+      }
+      .quickButtonsWorkers,
+      .quickButtonsCash{
+        grid-template-columns:repeat(2, minmax(0,1fr)) !important;
+        gap:8px !important;
+      }
+      .quickBtn{
+        aspect-ratio:auto !important;
+        min-height:66px !important;
+        font-size:.72rem !important;
+        line-height:1.1 !important;
+        padding:8px !important;
+        text-align:center !important;
+      }
+
+      .queueStatsGrid,
+      .row.two,
+      .row.actionsRow,
+      .intervalBox,
+      .messageRowTop,
+      .hoursRowHead,
+      .settingsRow,
+      .tripleDatesGrid{
+        grid-template-columns:1fr !important;
+      }
+
+      .audioCurrentTitle,
+      .dialogTitle{
+        overflow-wrap:anywhere;
+        word-break:break-word;
+      }
+      .audioCurrentTitle{
+        font-size:clamp(1.1rem, 7vw, 1.6rem) !important;
+        line-height:1.15 !important;
+      }
+
+      .field,
+      .field input,
+      .field select,
+      textarea,
+      .tradingText{
+        width:100% !important;
+        max-width:100% !important;
+        min-width:0 !important;
+      }
+
+      dialog{
+        width:calc(100vw - 10px) !important;
+        max-width:calc(100vw - 10px) !important;
+        margin:auto !important;
+        inset:0 !important;
+      }
+    }
+
+    @media (max-width: 420px){
+      .quickButtonsWorkers,
+      .quickButtonsCash{
+        grid-template-columns:1fr !important;
+      }
+      .quickBtn{
+        min-height:58px !important;
+        font-size:.68rem !important;
+      }
+    }
+
+  
+    #toggle{
+      transition:background .18s ease, border-color .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+    #toggle.is-start{
+      background:#1f8f3a;
+      border-color:#1f8f3a;
+      color:#fff;
+    }
+    #toggle.is-stop{
+      background:#d71919;
+      border-color:#d71919;
+      color:#fff;
+    }
+    @media (min-width: 761px){
+      #toggle{
+        min-width:140px;
+      }
+    }
+
+  
+    
+
+  
+    @media (min-width: 761px){
+      .quickGroups{
+        align-items:stretch;
+      }
+      .quickGroupCash{
+        height:100%;
+        display:flex;
+        flex-direction:column;
+        min-height:0;
+      }
+      .quickButtonsCash{
+        height:100%;
+        flex:1;
+        display:flex;
+        flex-direction:column;
+        gap:8px;
+        min-height:0;
+      }
+      .quickButtonsCash .quickBtn{
+        flex:1;
+        height:auto !important;
+        min-height:0 !important;
+        aspect-ratio:auto !important;
+        padding:6px 6px !important;
       }
     }
 
@@ -666,39 +961,38 @@
 
 
     <div class="mainLayout">
-      <aside class="quickPanel">
-        <p class="quickPanelTitle">Szybkie jednorazowe komunikaty</p>
+      
+<aside class="quickPanel">
+        <p class="quickPanelTitle">Pracownik działu xxxxxx proszony na linię kas, KG do Punktu info.</p>
 
-        <div class="quickSectionTitle">Pracownicy</div>
-        <div class="quickButtons">
-          <button class="quickBtn quick-yellow" type="button" data-quick-code="s1">
-            Pracownik działu dekoracja proszony na linię kas
-            <small>s1.mp3</small>
-          </button>
-          <button class="quickBtn quick-blue" type="button" data-quick-code="s2">
-            Pracownik działu majsterkowanie proszony na linię kas
-            <small>s2.mp3</small>
-          </button>
-          <button class="quickBtn quick-orange" type="button" data-quick-code="s3">
-            Pracownik działu budowlanego proszony na linię kas
-            <small>s3.mp3</small>
-          </button>
-          <button class="quickBtn quick-green" type="button" data-quick-code="s4">
-            Pracownik działu ogród proszony na linię kas
-            <small>s4.mp3</small>
-          </button>
-        </div>
+        <div class="quickGroups">
+          <section class="quickGroup quickGroupWorkers">
+            <div class="quickButtons quickButtonsWorkers">
+              <button class="quickBtn quick-yellow" type="button" data-quick-code="s1">
+                Dekoracja
+              </button>
+              <button class="quickBtn quick-blue" type="button" data-quick-code="s2">
+                Majsterkowanie
+              </button>
+              <button class="quickBtn quick-orange" type="button" data-quick-code="s3">
+                Budowlanka
+              </button>
+              <button class="quickBtn quick-green" type="button" data-quick-code="s4">
+                Ogród
+              </button>
+            </div>
+          </section>
 
-        <div class="quickSectionTitle">Kasjerskie</div>
-        <div class="quickButtons">
-          <button class="quickBtn quick-turquoise" type="button" data-quick-code="k1">
-            Kasjer główny proszony do punktu informacyjnego
-            <small>k1.mp3</small>
-          </button>
-          <button class="quickBtn quick-turquoise" type="button" data-quick-code="k2">
-            Kasjer proszony na linię kas
-            <small>k2.mp3</small>
-          </button>
+          <section class="quickGroup quickGroupCash">
+            <div class="quickButtons quickButtonsCash">
+              <button class="quickBtn quick-turquoise" type="button" data-quick-code="k1">
+                Kasjer główny
+              </button>
+              <button class="quickBtn quick-turquoise" type="button" data-quick-code="k2">
+                Kasjer
+              </button>
+            </div>
+          </section>
         </div>
       </aside>
 
@@ -849,7 +1143,7 @@
 
       <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:6px 0;"/>
 
-      <div class="row two" style="gap:10px;grid-template-columns:1fr 1fr;">
+      <div class="row two" style="gap:6px;grid-template-columns:1fr 1fr;">
         <label class="small inlineCheck"><input id="enableClosing" type="checkbox" /> Włącz automatyczne komunikaty zamknięcia</label>
         <label class="small inlineCheck"><input id="enableNextOpenInfo" type="checkbox" /> Włącz automatyczne informacje kiedy następne otwarcie</label>
       </div>
@@ -925,14 +1219,18 @@
           url: `${BASE_URL}k2.mp3?${AUDIO_CACHE_BUSTER}`
         }
       };
-      const MESSAGE_CATALOG = [{"fileNo": 1, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 2, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 3, "shortDesc": "Pestka I Wielkanoc-20% kw.szt -50%", "fullDesc": "Szanowni klienci brikomarsze Pestka!\nWszystkie ozdoby wielkanocne z rabatem minus dwadzieścia procent a dodatkowo wszystkie kwiaty sztuczne z dodatkowym rabatem minus pięćdziesiąt procent.\nRABATY OD PODANYCH CEN ZOSTANĄ NALICZONE PRZY KASIE.\nŻyczymy miłych zakupów."}, {"fileNo": 4, "shortDesc": "", "fullDesc": ""}, {"fileNo": 5, "shortDesc": "", "fullDesc": ""}, {"fileNo": 6, "shortDesc": "", "fullDesc": ""}, {"fileNo": 7, "shortDesc": "", "fullDesc": ""}, {"fileNo": 8, "shortDesc": "", "fullDesc": ""}, {"fileNo": 9, "shortDesc": "", "fullDesc": ""}, {"fileNo": 10, "shortDesc": "", "fullDesc": ""}, {"fileNo": 11, "shortDesc": "", "fullDesc": ""}, {"fileNo": 12, "shortDesc": "", "fullDesc": ""}, {"fileNo": 13, "shortDesc": "", "fullDesc": ""}, {"fileNo": 14, "shortDesc": "", "fullDesc": ""}, {"fileNo": 15, "shortDesc": "", "fullDesc": ""}, {"fileNo": 16, "shortDesc": "", "fullDesc": ""}, {"fileNo": 17, "shortDesc": "", "fullDesc": ""}, {"fileNo": 18, "shortDesc": "", "fullDesc": ""}, {"fileNo": 19, "shortDesc": "", "fullDesc": ""}, {"fileNo": 20, "shortDesc": "", "fullDesc": ""}, {"fileNo": 21, "shortDesc": "", "fullDesc": ""}, {"fileNo": 22, "shortDesc": "", "fullDesc": ""}, {"fileNo": 23, "shortDesc": "", "fullDesc": ""}, {"fileNo": 24, "shortDesc": "", "fullDesc": ""}, {"fileNo": 25, "shortDesc": "", "fullDesc": ""}, {"fileNo": 26, "shortDesc": "", "fullDesc": ""}, {"fileNo": 27, "shortDesc": "", "fullDesc": ""}, {"fileNo": 28, "shortDesc": "", "fullDesc": ""}, {"fileNo": 29, "shortDesc": "", "fullDesc": ""}, {"fileNo": 30, "shortDesc": "", "fullDesc": ""}, {"fileNo": 31, "shortDesc": "", "fullDesc": ""}, {"fileNo": 32, "shortDesc": "", "fullDesc": ""}, {"fileNo": 33, "shortDesc": "", "fullDesc": ""}, {"fileNo": 34, "shortDesc": "", "fullDesc": ""}, {"fileNo": 35, "shortDesc": "", "fullDesc": ""}, {"fileNo": 36, "shortDesc": "", "fullDesc": ""}, {"fileNo": 37, "shortDesc": "", "fullDesc": ""}, {"fileNo": 38, "shortDesc": "", "fullDesc": ""}, {"fileNo": 39, "shortDesc": "", "fullDesc": ""}, {"fileNo": 40, "shortDesc": "", "fullDesc": ""}, {"fileNo": 41, "shortDesc": "", "fullDesc": ""}, {"fileNo": 42, "shortDesc": "", "fullDesc": ""}, {"fileNo": 43, "shortDesc": "", "fullDesc": ""}, {"fileNo": 44, "shortDesc": "", "fullDesc": ""}, {"fileNo": 45, "shortDesc": "", "fullDesc": ""}, {"fileNo": 46, "shortDesc": "", "fullDesc": ""}, {"fileNo": 47, "shortDesc": "", "fullDesc": ""}, {"fileNo": 48, "shortDesc": "", "fullDesc": ""}, {"fileNo": 49, "shortDesc": "", "fullDesc": ""}, {"fileNo": 50, "shortDesc": "", "fullDesc": ""}, {"fileNo": 51, "shortDesc": "", "fullDesc": ""}, {"fileNo": 52, "shortDesc": "", "fullDesc": ""}, {"fileNo": 53, "shortDesc": "", "fullDesc": ""}, {"fileNo": 54, "shortDesc": "", "fullDesc": ""}, {"fileNo": 55, "shortDesc": "", "fullDesc": ""}, {"fileNo": 56, "shortDesc": "", "fullDesc": ""}, {"fileNo": 57, "shortDesc": "", "fullDesc": ""}, {"fileNo": 58, "shortDesc": "", "fullDesc": ""}, {"fileNo": 59, "shortDesc": "", "fullDesc": ""}, {"fileNo": 60, "shortDesc": "", "fullDesc": ""}, {"fileNo": 61, "shortDesc": "", "fullDesc": ""}, {"fileNo": 62, "shortDesc": "", "fullDesc": ""}, {"fileNo": 63, "shortDesc": "", "fullDesc": ""}, {"fileNo": 64, "shortDesc": "", "fullDesc": ""}, {"fileNo": 65, "shortDesc": "", "fullDesc": ""}, {"fileNo": 66, "shortDesc": "", "fullDesc": ""}, {"fileNo": 67, "shortDesc": "", "fullDesc": ""}, {"fileNo": 68, "shortDesc": "", "fullDesc": ""}, {"fileNo": 69, "shortDesc": "", "fullDesc": ""}, {"fileNo": 70, "shortDesc": "", "fullDesc": ""}, {"fileNo": 71, "shortDesc": "", "fullDesc": ""}, {"fileNo": 72, "shortDesc": "", "fullDesc": ""}, {"fileNo": 73, "shortDesc": "", "fullDesc": ""}, {"fileNo": 74, "shortDesc": "", "fullDesc": ""}, {"fileNo": 75, "shortDesc": "", "fullDesc": ""}, {"fileNo": 76, "shortDesc": "", "fullDesc": ""}, {"fileNo": 77, "shortDesc": "", "fullDesc": ""}, {"fileNo": 78, "shortDesc": "", "fullDesc": ""}, {"fileNo": 79, "shortDesc": "", "fullDesc": ""}, {"fileNo": 80, "shortDesc": "", "fullDesc": ""}, {"fileNo": 81, "shortDesc": "", "fullDesc": ""}, {"fileNo": 82, "shortDesc": "", "fullDesc": ""}, {"fileNo": 83, "shortDesc": "", "fullDesc": ""}, {"fileNo": 84, "shortDesc": "", "fullDesc": ""}, {"fileNo": 85, "shortDesc": "", "fullDesc": ""}, {"fileNo": 86, "shortDesc": "", "fullDesc": ""}, {"fileNo": 87, "shortDesc": "", "fullDesc": ""}, {"fileNo": 88, "shortDesc": "", "fullDesc": ""}, {"fileNo": 89, "shortDesc": "", "fullDesc": ""}, {"fileNo": 90, "shortDesc": "", "fullDesc": ""}, {"fileNo": 91, "shortDesc": "", "fullDesc": ""}, {"fileNo": 92, "shortDesc": "", "fullDesc": ""}, {"fileNo": 93, "shortDesc": "", "fullDesc": ""}, {"fileNo": 94, "shortDesc": "", "fullDesc": ""}, {"fileNo": 95, "shortDesc": "", "fullDesc": ""}, {"fileNo": 96, "shortDesc": "", "fullDesc": ""}, {"fileNo": 97, "shortDesc": "", "fullDesc": ""}, {"fileNo": 98, "shortDesc": "", "fullDesc": ""}, {"fileNo": 99, "shortDesc": "", "fullDesc": ""}, {"fileNo": 100, "shortDesc": "", "fullDesc": ""}];
+      const MESSAGE_CATALOG = [{"fileNo": 1, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 2, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 3, "shortDesc": "Pestka I Wielkanoc-20% kw.szt -50%", "fullDesc": "Szanowni klienci brikomarsze Pestka!\nWszystkie ozdoby wielkanocne z rabatem minus dwadzieścia procent a dodatkowo wszystkie kwiaty sztuczne z dodatkowym rabatem minus pięćdziesiąt procent.\nRABATY OD PODANYCH CEN ZOSTANĄ NALICZONE PRZY KASIE.\nŻyczymy miłych zakupów."}, {"fileNo": 4, "shortDesc": "Dostawa roślin domowych", "fullDesc": "Nowa dostawa roślin domowych juz zawitała na nasz sklep, świeżutkie rośliny w atrakcyjnych cenach tylk o u nas. Serdecznie zachęcamy i życzymy udanych zakupów."}, {"fileNo": 5, "shortDesc": "Dostawa roślin balkonowych", "fullDesc": "Nowa dostawa roślin balkonowych juz zawitała na nasz sklep, świeżutkie rośliny w atrakcyjnych cenach tylk o u nas. Serdecznie zachęcamy i życzymy udanych zakupów."}, {"fileNo": 6, "shortDesc": "Dostawa roślin ogrodowych", "fullDesc": "Nowa dostawa roślin ogrodowych juz zawitała na nasz sklep, świeżutkie rośliny w atrakcyjnych cenach tylk o u nas. Serdecznie zachęcamy i życzymy udanych zakupów."}, {"fileNo": 7, "shortDesc": "Promowanie programu lojalnościowego", "fullDesc": "Drodzy klienci, Zyskujcie więcej z każdej wizyty w Brico.\nPobierzcie aplikacje lub zarejestrujcie kartę\naby cieszyć się z bonów za zakupy, kuponów rabatowych i dedykowanych promocji.\nNie macie jeszcze karty ani aplikacji? Błąd!\nTo tylko minutka! A nasi pracownicy z przyjemnością pomogą w rejestracji.\nMoje Bricomarche - Więcej korzyści przy każdy zakupach."}, {"fileNo": 8, "shortDesc": "", "fullDesc": ""}, {"fileNo": 9, "shortDesc": "", "fullDesc": ""}, {"fileNo": 10, "shortDesc": "", "fullDesc": ""}, {"fileNo": 11, "shortDesc": "", "fullDesc": ""}, {"fileNo": 12, "shortDesc": "", "fullDesc": ""}, {"fileNo": 13, "shortDesc": "", "fullDesc": ""}, {"fileNo": 14, "shortDesc": "", "fullDesc": ""}, {"fileNo": 15, "shortDesc": "", "fullDesc": ""}, {"fileNo": 16, "shortDesc": "", "fullDesc": ""}, {"fileNo": 17, "shortDesc": "", "fullDesc": ""}, {"fileNo": 18, "shortDesc": "", "fullDesc": ""}, {"fileNo": 19, "shortDesc": "", "fullDesc": ""}, {"fileNo": 20, "shortDesc": "", "fullDesc": ""}, {"fileNo": 21, "shortDesc": "", "fullDesc": ""}, {"fileNo": 22, "shortDesc": "", "fullDesc": ""}, {"fileNo": 23, "shortDesc": "", "fullDesc": ""}, {"fileNo": 24, "shortDesc": "", "fullDesc": ""}, {"fileNo": 25, "shortDesc": "", "fullDesc": ""}, {"fileNo": 26, "shortDesc": "", "fullDesc": ""}, {"fileNo": 27, "shortDesc": "", "fullDesc": ""}, {"fileNo": 28, "shortDesc": "", "fullDesc": ""}, {"fileNo": 29, "shortDesc": "", "fullDesc": ""}, {"fileNo": 30, "shortDesc": "", "fullDesc": ""}, {"fileNo": 31, "shortDesc": "", "fullDesc": ""}, {"fileNo": 32, "shortDesc": "", "fullDesc": ""}, {"fileNo": 33, "shortDesc": "", "fullDesc": ""}, {"fileNo": 34, "shortDesc": "", "fullDesc": ""}, {"fileNo": 35, "shortDesc": "", "fullDesc": ""}, {"fileNo": 36, "shortDesc": "", "fullDesc": ""}, {"fileNo": 37, "shortDesc": "", "fullDesc": ""}, {"fileNo": 38, "shortDesc": "", "fullDesc": ""}, {"fileNo": 39, "shortDesc": "", "fullDesc": ""}, {"fileNo": 40, "shortDesc": "", "fullDesc": ""}, {"fileNo": 41, "shortDesc": "", "fullDesc": ""}, {"fileNo": 42, "shortDesc": "", "fullDesc": ""}, {"fileNo": 43, "shortDesc": "", "fullDesc": ""}, {"fileNo": 44, "shortDesc": "", "fullDesc": ""}, {"fileNo": 45, "shortDesc": "", "fullDesc": ""}, {"fileNo": 46, "shortDesc": "", "fullDesc": ""}, {"fileNo": 47, "shortDesc": "", "fullDesc": ""}, {"fileNo": 48, "shortDesc": "", "fullDesc": ""}, {"fileNo": 49, "shortDesc": "", "fullDesc": ""}, {"fileNo": 50, "shortDesc": "", "fullDesc": ""}, {"fileNo": 51, "shortDesc": "", "fullDesc": ""}, {"fileNo": 52, "shortDesc": "", "fullDesc": ""}, {"fileNo": 53, "shortDesc": "", "fullDesc": ""}, {"fileNo": 54, "shortDesc": "", "fullDesc": ""}, {"fileNo": 55, "shortDesc": "", "fullDesc": ""}, {"fileNo": 56, "shortDesc": "", "fullDesc": ""}, {"fileNo": 57, "shortDesc": "", "fullDesc": ""}, {"fileNo": 58, "shortDesc": "", "fullDesc": ""}, {"fileNo": 59, "shortDesc": "", "fullDesc": ""}, {"fileNo": 60, "shortDesc": "", "fullDesc": ""}, {"fileNo": 61, "shortDesc": "", "fullDesc": ""}, {"fileNo": 62, "shortDesc": "", "fullDesc": ""}, {"fileNo": 63, "shortDesc": "", "fullDesc": ""}, {"fileNo": 64, "shortDesc": "", "fullDesc": ""}, {"fileNo": 65, "shortDesc": "", "fullDesc": ""}, {"fileNo": 66, "shortDesc": "", "fullDesc": ""}, {"fileNo": 67, "shortDesc": "", "fullDesc": ""}, {"fileNo": 68, "shortDesc": "", "fullDesc": ""}, {"fileNo": 69, "shortDesc": "", "fullDesc": ""}, {"fileNo": 70, "shortDesc": "", "fullDesc": ""}, {"fileNo": 71, "shortDesc": "", "fullDesc": ""}, {"fileNo": 72, "shortDesc": "", "fullDesc": ""}, {"fileNo": 73, "shortDesc": "", "fullDesc": ""}, {"fileNo": 74, "shortDesc": "", "fullDesc": ""}, {"fileNo": 75, "shortDesc": "", "fullDesc": ""}, {"fileNo": 76, "shortDesc": "", "fullDesc": ""}, {"fileNo": 77, "shortDesc": "", "fullDesc": ""}, {"fileNo": 78, "shortDesc": "", "fullDesc": ""}, {"fileNo": 79, "shortDesc": "", "fullDesc": ""}, {"fileNo": 80, "shortDesc": "", "fullDesc": ""}, {"fileNo": 81, "shortDesc": "", "fullDesc": ""}, {"fileNo": 82, "shortDesc": "", "fullDesc": ""}, {"fileNo": 83, "shortDesc": "", "fullDesc": ""}, {"fileNo": 84, "shortDesc": "", "fullDesc": ""}, {"fileNo": 85, "shortDesc": "", "fullDesc": ""}, {"fileNo": 86, "shortDesc": "", "fullDesc": ""}, {"fileNo": 87, "shortDesc": "", "fullDesc": ""}, {"fileNo": 88, "shortDesc": "", "fullDesc": ""}, {"fileNo": 89, "shortDesc": "", "fullDesc": ""}, {"fileNo": 90, "shortDesc": "", "fullDesc": ""}, {"fileNo": 91, "shortDesc": "", "fullDesc": ""}, {"fileNo": 92, "shortDesc": "", "fullDesc": ""}, {"fileNo": 93, "shortDesc": "", "fullDesc": ""}, {"fileNo": 94, "shortDesc": "", "fullDesc": ""}, {"fileNo": 95, "shortDesc": "", "fullDesc": ""}, {"fileNo": 96, "shortDesc": "", "fullDesc": ""}, {"fileNo": 97, "shortDesc": "", "fullDesc": ""}, {"fileNo": 98, "shortDesc": "", "fullDesc": ""}, {"fileNo": 99, "shortDesc": "", "fullDesc": ""}, {"fileNo": 100, "shortDesc": "", "fullDesc": ""}];
       const AVAILABLE_MESSAGES = MESSAGE_CATALOG.filter((item) => (item.shortDesc || "").trim().length > 0);
 
-      const CLOSING_MESSAGE_CATALOG = Array.from({ length: 100 }, (_, i) => ({
-        fileNo: i + 1,
-        shortDesc: `z${i + 1}.mp3`,
-        fullDesc: `Komunikat zamknięcia z${i + 1}.mp3`
-      }));
+      const CLOSING_MESSAGE_OPTIONS = {
+        "30": ["z30z1", "z30z2", "z30z3"],
+        "25": ["z25z1", "z25z2", "z25z3"],
+        "20": ["z20z1", "z20z2", "z20z3"],
+        "15": ["z15z1", "z15z2", "z15z3"],
+        "10": ["z10z1", "z10z2", "z30z3"],
+        "5": ["z5z1", "z5z2", "z5z3"],
+        "0": ["z0z1", "z0z2", "z0z2"]
+      };
 
       const clockEl = document.getElementById("clock");
       const dateEl = document.getElementById("date");
@@ -1570,20 +1868,27 @@
       }
 
 
-      function getClosingCatalogEntry(fileNo){
-        const no = Math.max(1, Math.min(100, Number(fileNo || 1)));
+      function getDefaultClosingCode(minutes){
+        const options = CLOSING_MESSAGE_OPTIONS[String(minutes)] || [];
+        return options[0] || "";
+      }
+
+      function getClosingCatalogEntry(code){
+        const safeCode = String(code || "").trim();
         return {
-          fileNo: no,
-          shortDesc: `z${no}.mp3`,
-          fullDesc: `Komunikat zamknięcia z${no}.mp3`,
-          url: `${BASE_URL}z${no}.mp3?${AUDIO_CACHE_BUSTER}`
+          fileNo: safeCode,
+          shortDesc: `${safeCode}.mp3`,
+          fullDesc: `Komunikat zamknięcia ${safeCode}.mp3`,
+          url: `${BASE_URL}${safeCode}.mp3?${AUDIO_CACHE_BUSTER}`
         };
       }
 
-      function buildClosingSelectOptions(selectedNo){
-        return CLOSING_MESSAGE_CATALOG.map((item) => {
-          const sel = Number(item.fileNo) === Number(selectedNo) ? " selected" : "";
-          return `<option value="${item.fileNo}"${sel}>z${item.fileNo}.mp3</option>`;
+      function buildClosingSelectOptions(minutes, selectedCode){
+        const options = CLOSING_MESSAGE_OPTIONS[String(minutes)] || [];
+        const selected = options.includes(String(selectedCode || "")) ? String(selectedCode) : (options[0] || "");
+        return options.map((code) => {
+          const sel = code === selected ? " selected" : "";
+          return `<option value="${code}"${sel}>${code}.mp3</option>`;
         }).join("");
       }
 
@@ -1598,7 +1903,7 @@
         closingGridEl.innerHTML = CLOSING_MARKERS.map((m) => {
           const conf = storeSettings.closingMessages[String(m.minutes)] || { enabled:false, fileNo:null };
           const checked = conf.enabled ? "checked" : "";
-          const selected = conf.fileNo || (AVAILABLE_MESSAGES[0]?.fileNo || 1);
+          const selected = conf.fileNo || getDefaultClosingCode(m.minutes);
           return `
             <div class="closingRow" data-min="${m.minutes}">
               <label class="inlineCheck">
@@ -1606,7 +1911,7 @@
                 ${m.label}
               </label>
               <select class="closingSelect">
-                ${buildClosingSelectOptions(selected)}
+                ${buildClosingSelectOptions(m.minutes, selected)}
               </select>
             </div>
           `;
@@ -1632,6 +1937,17 @@
         enableClosingEl.checked = !!storeSettings.closingEnabled;
         enableNextOpenInfoEl.checked = !!storeSettings.nextOpenInfoEnabled;
         syncAutoInfoToggle();
+
+        Object.keys(storeSettings.closingMessages || {}).forEach((key) => {
+          const options = CLOSING_MESSAGE_OPTIONS[String(key)] || [];
+          const current = storeSettings.closingMessages[key]?.fileNo;
+          if (!options.includes(String(current || ""))) {
+            storeSettings.closingMessages[key] = {
+              enabled: !!storeSettings.closingMessages[key]?.enabled,
+              fileNo: options[0] || null
+            };
+          }
+        });
 
         renderClosingGrid();
       }
@@ -1667,7 +1983,7 @@
         closingGridEl.querySelectorAll(".closingRow").forEach((row) => {
           const min = row.getAttribute("data-min");
           const enabled = !!row.querySelector(".closingEnabled")?.checked;
-          const fileNo = Number(row.querySelector(".closingSelect")?.value || 0) || null;
+          const fileNo = String(row.querySelector(".closingSelect")?.value || "").trim() || null;
           closingMessages[String(min)] = { enabled, fileNo };
         });
 
@@ -2104,6 +2420,11 @@
         stop();
       }
 
+      function syncToggleVisualState(){
+        toggleBtn.classList.toggle("is-start", !running);
+        toggleBtn.classList.toggle("is-stop", running);
+      }
+
       function start() {
         if (running) return;
         running = true;
@@ -2121,6 +2442,7 @@
 
         setStatus("Start…");
         toggleBtn.textContent = "Stop";
+        syncToggleVisualState();
         updateQueuePreview();
         loopHandle = setTimeout(loop, 0);
       }
@@ -2134,6 +2456,7 @@
         nextPlaybackAt = null;
 
         toggleBtn.textContent = "Start";
+        syncToggleVisualState();
         hideStatus();
         updateCountPreview();
         updateQueuePreview();
@@ -2494,6 +2817,7 @@
 
       preloadQuickDurations();
       renderQuickQueue();
+      syncToggleVisualState();
       updateCountPreview();
       updateHoursSummary();
       syncModeUI();
