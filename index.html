@@ -1113,9 +1113,9 @@
         <div class="settingsRow"><div class="dayLabel">Środa</div><input class="dayOpen" data-day="wed" type="time" value="08:00" /><input class="dayClose" data-day="wed" type="time" value="20:00" /></div>
         <div class="settingsRow"><div class="dayLabel">Czwartek</div><input class="dayOpen" data-day="thu" type="time" value="08:00" /><input class="dayClose" data-day="thu" type="time" value="20:00" /></div>
         <div class="settingsRow"><div class="dayLabel">Piątek</div><input class="dayOpen" data-day="fri" type="time" value="08:00" /><input class="dayClose" data-day="fri" type="time" value="20:00" /></div>
-        <div class="settingsRow"><div class="dayLabel">Sobota</div><input class="dayOpen" data-day="sat" type="time" value="08:00" /><input class="dayClose" data-day="sat" type="time" value="18:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Sobota</div><input class="dayOpen" data-day="sat" type="time" value="08:00" /><input class="dayClose" data-day="sat" type="time" value="20:00" /></div>
 
-        <div class="settingsRow"><div class="dayLabel">Niedziela</div><input class="dayOpen" data-day="sun" type="time" value="10:00" /><input class="dayClose" data-day="sun" type="time" value="18:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Niedziela</div><input class="dayOpen" data-day="sun" type="time" value="09:00" /><input class="dayClose" data-day="sun" type="time" value="17:00" /></div>
 
         <div class="settingsRow"><div class="dayLabel">Tryb niedziel</div>
           <label class="small inlineCheck"><input id="sunEvery" type="checkbox" /> Sklep otwarty w każdą niedzielę</label>
@@ -1318,23 +1318,23 @@
           wed: { open: "08:00", close: "20:00" },
           thu: { open: "08:00", close: "20:00" },
           fri: { open: "08:00", close: "20:00" },
-          sat: { open: "08:00", close: "18:00" },
-          sun: { open: "10:00", close: "18:00" }
+          sat: { open: "08:00", close: "20:00" },
+          sun: { open: "09:00", close: "17:00" }
         },
-        sundayMode: "closed",
+        sundayMode: "every",
         tradingSundays: [],
         closedHolidays: [],
         inventoryDays: [],
-        closingEnabled: false,
+        closingEnabled: true,
         nextOpenInfoEnabled: false,
         closingMessages: {
-          30: { enabled: false, fileNo: null },
-          25: { enabled: false, fileNo: null },
-          20: { enabled: false, fileNo: null },
-          15: { enabled: false, fileNo: null },
-          10: { enabled: false, fileNo: null },
-          5:  { enabled: false, fileNo: null },
-          0:  { enabled: false, fileNo: null }
+          30: { enabled: true, fileNo: "z30z1" },
+          25: { enabled: true, fileNo: "z25z1" },
+          20: { enabled: true, fileNo: "z20z1" },
+          15: { enabled: true, fileNo: "z15z1" },
+          10: { enabled: true, fileNo: "z10z1" },
+          5:  { enabled: true, fileNo: "z5z1" },
+          0:  { enabled: true, fileNo: "z0z1" }
         }
       };
 
