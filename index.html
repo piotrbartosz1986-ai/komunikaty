@@ -1548,6 +1548,10 @@
 
       saveSettingsBtn.addEventListener("click", () => {
         readSettingsFromDialog();
+
+        const todayKey = ymd(new Date());
+        closingPlayedByDate[todayKey] = {};
+
         saveState();
         closeSettings();
       });
@@ -2048,8 +2052,11 @@
           const upper = m;
           const lower = m - 1;
           if (minToClose <= upper && minToClose > lower){
-            closingPlayedByDate[todayKey][String(m)] = true;
-            return getClosingCatalogEntry(conf.fileNo);
+            return {
+              markerMinutes: m,
+              todayKey,
+              message: getClosingCatalogEntry(conf.fileNo)
+            };
           }
         }
         return null;
@@ -2334,15 +2341,20 @@
         }
 
         normalizeClosingMessageSettings();
-        const closingMsg = getClosingMessageToPlay(nowAuto);
-        if (closingMsg) {
-          const resC = await playMessage(closingMsg);
+        const closingInfo = getClosingMessageToPlay(nowAuto);
+        if (closingInfo && closingInfo.message) {
+          const resC = await playMessage(closingInfo.message);
           if (resC.started) {
-            setStatus(`Komunikat zamknięcia: ${closingMsg.fileNo}.mp3 — ${closingMsg.shortDesc}`);
+            if (!closingPlayedByDate[closingInfo.todayKey]) {
+              closingPlayedByDate[closingInfo.todayKey] = {};
+            }
+            closingPlayedByDate[closingInfo.todayKey][String(closingInfo.markerMinutes)] = true;
+
+            setStatus(`Komunikat zamknięcia: ${closingInfo.message.fileNo}.mp3 — ${closingInfo.message.shortDesc}`);
             nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
             updateQueuePreview();
             saveState();
-            loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+            loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
             setTimeout(processQuickQueue, 50);
             return;
           }
@@ -2376,7 +2388,7 @@
             nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
             updateQueuePreview();
             saveState();
-            loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+            loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
             return;
           }
 
@@ -2423,7 +2435,7 @@
           nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
           updateQueuePreview();
           saveState();
-          loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+          loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
           setTimeout(processQuickQueue, 50);
           return;
         }
