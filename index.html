@@ -2267,6 +2267,42 @@
         return getEffectiveIntervalSeconds();
       }
 
+      function getUpcomingClosingQueuePreview(maxAheadMinutes = 40) {
+        normalizeClosingMessageSettings();
+
+        const now = new Date();
+        if (!storeSettings.closingEnabled) return [];
+        if (!isWithinOpenHours(now)) return [];
+
+        const close = getCloseDateTime(now);
+        const todayKey = ymd(now);
+        if (!closingPlayedByDate[todayKey]) closingPlayedByDate[todayKey] = {};
+
+        const maxAheadMs = maxAheadMinutes * 60 * 1000;
+        const list = [];
+
+        for (const marker of CLOSING_MARKERS) {
+          const m = marker.minutes;
+          const conf = storeSettings.closingMessages?.[String(m)];
+          if (!conf || !conf.enabled || !conf.fileNo) continue;
+          if (closingPlayedByDate[todayKey][String(m)]) continue;
+
+          const when = new Date(close.getTime() - (m * 60 * 1000));
+          const diffMs = when.getTime() - now.getTime();
+
+          if (diffMs >= 0 && diffMs <= maxAheadMs) {
+            list.push({
+              etaSec: Math.ceil(diffMs / 1000),
+              shortDesc: `[Zamknięcie ${marker.label}] ${String(conf.fileNo)}.mp3`,
+              fullDesc: `Komunikat zamknięcia ${marker.label}: ${String(conf.fileNo)}.mp3`
+            });
+          }
+        }
+
+        list.sort((a, b) => a.etaSec - b.etaSec);
+        return list;
+      }
+
       function getQueueMessagesForPreview() {
         if (getMode() === "count") {
           const messages = getCountMessages();
@@ -2318,10 +2354,12 @@
 
         const regularQueue = getQueueMessagesForPreview().filter((m) => !currentAudioMeta || Number(m.fileNo) !== Number(currentAudioMeta.fileNo));
         const quickQueuePreview = quickQueue.map((message) => ({
-          shortDesc: `[Jednorazowy] ${message.shortDesc}`
+          shortDesc: `[Jednorazowy] ${message.shortDesc}`,
+          etaSec: null
         }));
+        const closingQueuePreview = getUpcomingClosingQueuePreview(40);
 
-        if (!regularQueue.length && !quickQueuePreview.length) {
+        if (!regularQueue.length && !quickQueuePreview.length && !closingQueuePreview.length) {
           audioQueueListEl.innerHTML = `<div class="audioSubtle">Brak innych wybranych komunikatów.</div>`;
           return;
         }
@@ -2329,12 +2367,19 @@
         const baseSec = getQueueBaseSeconds();
         const intervalSec = getEffectiveIntervalSeconds();
 
-        const regularHtml = regularQueue.map((message, idx) => {
-          const sec = baseSec + (idx * intervalSec);
+        const scheduledRegular = regularQueue.map((message, idx) => ({
+          shortDesc: message.shortDesc,
+          etaSec: baseSec + (idx * intervalSec)
+        }));
+
+        const scheduledItems = [...scheduledRegular, ...closingQueuePreview]
+          .sort((a, b) => (a.etaSec ?? 9999999) - (b.etaSec ?? 9999999));
+
+        const scheduledHtml = scheduledItems.map((message) => {
           return `
             <div class="queueItem">
               <div>${message.shortDesc}</div>
-              <div class="queueTimer">za ${sec} s</div>
+              <div class="queueTimer">za ${message.etaSec} s</div>
             </div>
           `;
         }).join("");
@@ -2348,7 +2393,7 @@
           `;
         }).join("");
 
-        audioQueueListEl.innerHTML = regularHtml + quickHtml;
+        audioQueueListEl.innerHTML = scheduledHtml + quickHtml;
       }
 
       async function loop() {
