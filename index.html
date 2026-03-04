@@ -1892,6 +1892,26 @@
         }).join("");
       }
 
+      function normalizeClosingMessageSettings(){
+        if (!storeSettings.closingMessages) {
+          storeSettings.closingMessages = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS.closingMessages));
+        }
+
+        Object.keys(DEFAULT_STORE_SETTINGS.closingMessages).forEach((key) => {
+          const options = CLOSING_MESSAGE_OPTIONS[String(key)] || [];
+          const current = String(storeSettings.closingMessages?.[key]?.fileNo || "").trim();
+
+          if (!storeSettings.closingMessages[key]) {
+            storeSettings.closingMessages[key] = { enabled: false, fileNo: options[0] || null };
+            return;
+          }
+
+          if (!options.includes(current)) {
+            storeSettings.closingMessages[key].fileNo = options[0] || null;
+          }
+        });
+      }
+
       function buildSelectOptions(selectedNo){
         return AVAILABLE_MESSAGES.map((item) => {
           const sel = Number(item.fileNo) === Number(selectedNo) ? " selected" : "";
@@ -2313,6 +2333,7 @@
           }
         }
 
+        normalizeClosingMessageSettings();
         const closingMsg = getClosingMessageToPlay(nowAuto);
         if (closingMsg) {
           const resC = await playMessage(closingMsg);
@@ -2803,6 +2824,7 @@
 
       if (!restored) {
         storeSettings = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS));
+        normalizeClosingMessageSettings();
         closingPlayedByDate = {};
         countMessagesEl.appendChild(createMessageRow(AVAILABLE_MESSAGES[0]?.fileNo || 1));
         hoursSlotsEl.appendChild(createHoursSlot("08:00", "09:00"));
