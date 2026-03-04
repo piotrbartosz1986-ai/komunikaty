@@ -1299,6 +1299,7 @@
       let quickQueue = [];
       let quickMessageDurations = {};
       let quickInProgress = false;
+      let closingWatcherHandle = null;
 
       const CLOSING_MARKERS = [
         { minutes: 30, label: "30 min" },
@@ -2062,6 +2063,30 @@
         return null;
       }
 
+      async function checkClosingAnnouncements(){
+        if (!running) return;
+        normalizeClosingMessageSettings();
+
+        const nowAuto = new Date();
+        const closingInfo = getClosingMessageToPlay(nowAuto);
+        if (!closingInfo || !closingInfo.message) return;
+
+        if (!audioEl.paused || playingLock) return;
+
+        const resC = await playMessage(closingInfo.message);
+        if (resC.started) {
+          if (!closingPlayedByDate[closingInfo.todayKey]) {
+            closingPlayedByDate[closingInfo.todayKey] = {};
+          }
+          closingPlayedByDate[closingInfo.todayKey][String(closingInfo.markerMinutes)] = true;
+
+          setStatus(`Komunikat zamknięcia: ${closingInfo.message.fileNo}.mp3 — ${closingInfo.message.shortDesc}`);
+          nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          updateQueuePreview();
+          saveState();
+        }
+      }
+
       function parseTimeToMinutes(t) {
         const parts = String(t || "").split(":");
         const h = Math.min(23, Math.max(0, Number(parts[0] || 0)));
@@ -2340,25 +2365,7 @@
           }
         }
 
-        normalizeClosingMessageSettings();
-        const closingInfo = getClosingMessageToPlay(nowAuto);
-        if (closingInfo && closingInfo.message) {
-          const resC = await playMessage(closingInfo.message);
-          if (resC.started) {
-            if (!closingPlayedByDate[closingInfo.todayKey]) {
-              closingPlayedByDate[closingInfo.todayKey] = {};
-            }
-            closingPlayedByDate[closingInfo.todayKey][String(closingInfo.markerMinutes)] = true;
-
-            setStatus(`Komunikat zamknięcia: ${closingInfo.message.fileNo}.mp3 — ${closingInfo.message.shortDesc}`);
-            nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
-            updateQueuePreview();
-            saveState();
-            loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
-            setTimeout(processQuickQueue, 50);
-            return;
-          }
-        }
+        checkClosingAnnouncements();
 
         if (getMode() === "count") {
           if (remainingPlays <= 0) {
@@ -2388,7 +2395,7 @@
             nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
             updateQueuePreview();
             saveState();
-            loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
+            loopHandle = setTimeout(loop, getEffectiveIntervalMs());
             return;
           }
 
@@ -2435,7 +2442,7 @@
           nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
           updateQueuePreview();
           saveState();
-          loopHandle = setTimeout(loop, Math.min(getEffectiveIntervalMs(), 15000));
+          loopHandle = setTimeout(loop, getEffectiveIntervalMs());
           setTimeout(processQuickQueue, 50);
           return;
         }
@@ -2477,6 +2484,13 @@
         toggleBtn.textContent = "Stop";
         syncToggleVisualState();
         updateQueuePreview();
+
+        if (closingWatcherHandle) clearInterval(closingWatcherHandle);
+        closingWatcherHandle = setInterval(() => {
+          checkClosingAnnouncements();
+        }, 5000);
+        checkClosingAnnouncements();
+
         loopHandle = setTimeout(loop, 0);
       }
 
@@ -2486,6 +2500,8 @@
 
         if (loopHandle) clearTimeout(loopHandle);
         loopHandle = null;
+        if (closingWatcherHandle) clearInterval(closingWatcherHandle);
+        closingWatcherHandle = null;
         nextPlaybackAt = null;
 
         toggleBtn.textContent = "Start";
