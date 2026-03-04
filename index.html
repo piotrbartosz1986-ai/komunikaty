@@ -28,6 +28,7 @@
       width:min(980px,100%);
       display:grid;
       gap:16px;
+      padding:0;
     }
     .topBar {
       display:grid;
@@ -63,6 +64,32 @@
         text-align:center;
       }
     }
+    .topActions{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .topBtn{
+      padding:8px 12px;
+      font-weight:800;
+      border-radius:10px;
+    }
+    .iconBtn{
+      width:44px;
+      height:44px;
+      display:grid;
+      place-items:center;
+      padding:0;
+      font-size:1.2rem;
+      font-weight:900;
+      border-radius:12px;
+    }
+    @media (max-width:760px){
+      .topActions{ justify-content:center; }
+    }
+
     .controls {
       display:grid;
       gap:14px;
@@ -327,7 +354,9 @@
       justify-content:flex-start;
     }
     dialog {
-      width:min(680px,calc(100vw - 32px));
+      width:min(980px,calc(100vw - 32px));
+      max-height:90vh;
+      overflow:auto;
       border:none;
       border-radius:16px;
       padding:0;
@@ -360,6 +389,262 @@
     code {
       font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
     }
+  
+    .settingsGrid{ display:grid; gap:10px; }
+    .settingsRow{
+      display:grid;
+      gap:10px;
+      grid-template-columns: minmax(120px,1.2fr) minmax(0,1fr) minmax(0,1fr);
+      align-items:center;
+    }
+    @media (max-width:760px){
+      .settingsRow{ grid-template-columns:1fr; }
+    }
+    .dayLabel{ font-weight:800; opacity:.9; }
+    .inlineCheck{ display:flex; align-items:center; gap:10px; margin:0; }
+    .tradingText{
+      width:100%;
+      min-height:64px;
+      padding:10px 12px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,.18);
+    }
+    .closingGrid{ display:grid; gap:8px; margin-top:6px; }
+    .closingRow{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:10px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:12px;
+      border:1px solid rgba(0,0,0,.12);
+      background:rgba(0,0,0,.04);
+    }
+
+  
+    .tripleDatesGrid{
+      display:grid;
+      gap:12px;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      align-items:start;
+    }
+    @media (max-width:900px){
+      .tripleDatesGrid{
+        grid-template-columns:1fr;
+      }
+    }
+    .tripleDatesCol{
+      display:grid;
+      gap:8px;
+      min-width:0;
+    }
+
+  
+    /* mocniejsze poprawki mobilne / Chrome */
+    html, body{
+      max-width:100%;
+      overflow-x:hidden;
+    }
+    body{
+      padding:clamp(8px, 2vw, 24px);
+    }
+    .app{
+      width:min(980px, 100%);
+      margin:0 auto;
+      max-width:100%;
+    }
+    .controls,
+    .audioWrap,
+    .queueCard,
+    .statsCard,
+    .messageRow,
+    .hoursRow{
+      min-width:0;
+      max-width:100%;
+    }
+    .field,
+    .field label,
+    .field input,
+    .field select,
+    .tradingText,
+    textarea{
+      min-width:0;
+      max-width:100%;
+    }
+    .small,
+    .audioSubtle,
+    .dialogText,
+    .dayLabel,
+    .pill{
+      overflow-wrap:anywhere;
+      word-break:break-word;
+    }
+    dialog{
+      width:min(980px, calc(100vw - 12px));
+      max-width:calc(100vw - 12px);
+      margin:auto;
+      inset:0;
+      overflow:auto;
+    }
+    dialog[open]{
+      display:block;
+    }
+    .dialogBody{
+      padding:clamp(12px, 3vw, 18px);
+      max-width:100%;
+      overflow-x:hidden;
+    }
+    .settingsGrid,
+    .tripleDatesGrid,
+    .queueStatsGrid,
+    .row,
+    .row.two,
+    .row.actionsRow,
+    .hoursRowHead,
+    .messageRowTop,
+    .intervalBox{
+      min-width:0;
+    }
+
+    @media (max-width: 900px){
+      .messageRowTop{
+        grid-template-columns:1fr !important;
+      }
+      .hoursRowHead{
+        grid-template-columns:1fr !important;
+      }
+      .tripleDatesGrid{
+        grid-template-columns:1fr !important;
+      }
+      .queueStatsGrid{
+        grid-template-columns:1fr !important;
+      }
+    }
+
+    @media (max-width: 760px){
+      body{
+        padding:8px;
+      }
+      .app{
+        width:100%;
+      }
+      .controls{
+        padding:10px;
+      }
+      .row.two,
+      .row.actionsRow,
+      .intervalBox,
+      .settingsRow{
+        grid-template-columns:1fr !important;
+      }
+      .topBar{
+        grid-template-columns:1fr !important;
+      }
+      .logo,
+      .time{
+        justify-self:center !important;
+        text-align:center !important;
+      }
+      .topActions{
+        justify-content:center !important;
+        flex-wrap:wrap;
+      }
+      .btn{
+        width:100%;
+      }
+      .iconBtn{
+        width:100%;
+        height:44px;
+      }
+      dialog{
+        width:calc(100vw - 8px);
+        max-width:calc(100vw - 8px);
+        border-radius:12px;
+      }
+      .dialogBody{
+        padding:12px;
+      }
+    }
+
+  
+    .mainLayout{
+      display:grid;
+      grid-template-columns:minmax(260px,320px) minmax(0,1fr);
+      gap:16px;
+      align-items:start;
+    }
+    .quickPanel{
+      display:grid;
+      gap:12px;
+      padding:14px;
+      background:var(--card);
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      align-self:start;
+      position:sticky;
+      top:8px;
+    }
+    .quickPanelTitle{
+      margin:0;
+      font-size:1.05rem;
+      font-weight:900;
+    }
+    .quickSectionTitle{
+      margin:2px 0 0 0;
+      font-size:.95rem;
+      font-weight:800;
+      opacity:.95;
+    }
+    .quickButtons{
+      display:grid;
+      gap:10px;
+    }
+    .quickBtn{
+      border:none;
+      border-radius:12px;
+      padding:14px 12px;
+      text-align:left;
+      font:inherit;
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);
+    }
+    .quickBtn small{
+      display:block;
+      margin-top:4px;
+      font-weight:700;
+      opacity:.9;
+    }
+    .quickBtn:focus-visible{
+      outline:3px solid rgba(255,255,255,.55);
+      outline-offset:2px;
+    }
+    .quick-yellow{ background:#f4c542; color:#2b1f00; }
+    .quick-blue{ background:#5ba6ff; color:#071c33; }
+    .quick-orange{ background:#ff9f43; color:#351600; }
+    .quick-green{ background:#6edb8b; color:#082514; }
+    .quick-turquoise{ background:#58d5d3; color:#062523; }    .quickQueueItem{
+      font-size:.84rem;
+      line-height:1.3;
+      padding:6px 8px;
+      border-radius:10px;
+      background:rgba(0,0,0,.12);
+      overflow-wrap:anywhere;
+    }
+    .contentCol{
+      min-width:0;
+      display:grid;
+      gap:16px;
+    }
+    @media (max-width: 1100px){
+      .mainLayout{
+        grid-template-columns:1fr;
+      }
+      .quickPanel{
+        position:static;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -372,8 +657,52 @@
       <div class="time">
         <div id="clock" class="clock" aria-live="polite">--:--:--</div>
         <div id="date" class="date"></div>
+        <div class="topActions">
+          <button id="resetSettings" class="btn topBtn" type="button" title="Resetuj ustawienia komunikatów">Resetuj ustawienia komunikatów</button>
+          <button id="openSettings" class="btn iconBtn" type="button" title="Ustawienia">⚙</button>
+        </div>
       </div>
     </div>
+
+
+    <div class="mainLayout">
+      <aside class="quickPanel">
+        <p class="quickPanelTitle">Szybkie jednorazowe komunikaty</p>
+
+        <div class="quickSectionTitle">Pracownicy</div>
+        <div class="quickButtons">
+          <button class="quickBtn quick-yellow" type="button" data-quick-code="s1">
+            Pracownik działu dekoracja proszony na linię kas
+            <small>s1.mp3</small>
+          </button>
+          <button class="quickBtn quick-blue" type="button" data-quick-code="s2">
+            Pracownik działu majsterkowanie proszony na linię kas
+            <small>s2.mp3</small>
+          </button>
+          <button class="quickBtn quick-orange" type="button" data-quick-code="s3">
+            Pracownik działu budowlanego proszony na linię kas
+            <small>s3.mp3</small>
+          </button>
+          <button class="quickBtn quick-green" type="button" data-quick-code="s4">
+            Pracownik działu ogród proszony na linię kas
+            <small>s4.mp3</small>
+          </button>
+        </div>
+
+        <div class="quickSectionTitle">Kasjerskie</div>
+        <div class="quickButtons">
+          <button class="quickBtn quick-turquoise" type="button" data-quick-code="k1">
+            Kasjer główny proszony do punktu informacyjnego
+            <small>k1.mp3</small>
+          </button>
+          <button class="quickBtn quick-turquoise" type="button" data-quick-code="k2">
+            Kasjer proszony na linię kas
+            <small>k2.mp3</small>
+          </button>
+        </div>
+      </aside>
+
+      <div class="contentCol">
 
     <div class="controls">
       <div class="audioWrap">
@@ -397,9 +726,7 @@
 
       <div class="row actionsRow">
         <button id="toggle" class="btn" type="button">Start</button>
-        <button id="clearMemory" class="btn" type="button">Wyczyść pamięć</button>
-
-        <div class="field">
+<div class="field">
           <span>Interwał odtwarzania</span>
           <div class="intervalBox">
             <label class="field">
@@ -469,11 +796,72 @@
         </div>
       </div>
     </div>
+      </div>
+    </div>
 
     <p class="small">
       Created by Piotr Bartosz w razie problemów lub jeżeli potrzebny nowy komunikat 506021300
     </p>
   </main>
+
+
+  <dialog id="settingsDialog">
+    <div class="dialogBody">
+      <p class="dialogTitle">Ustawienia sklepu</p>
+
+      <div class="small" style="opacity:.9;">
+        Godziny otwarcia: ustaw dla każdego dnia tygodnia. Niedziela ma dodatkowe opcje.
+      </div>
+
+      <div class="settingsGrid">
+        <div class="settingsRow"><div class="dayLabel">Poniedziałek</div><input class="dayOpen" data-day="mon" type="time" value="08:00" /><input class="dayClose" data-day="mon" type="time" value="20:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Wtorek</div><input class="dayOpen" data-day="tue" type="time" value="08:00" /><input class="dayClose" data-day="tue" type="time" value="20:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Środa</div><input class="dayOpen" data-day="wed" type="time" value="08:00" /><input class="dayClose" data-day="wed" type="time" value="20:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Czwartek</div><input class="dayOpen" data-day="thu" type="time" value="08:00" /><input class="dayClose" data-day="thu" type="time" value="20:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Piątek</div><input class="dayOpen" data-day="fri" type="time" value="08:00" /><input class="dayClose" data-day="fri" type="time" value="20:00" /></div>
+        <div class="settingsRow"><div class="dayLabel">Sobota</div><input class="dayOpen" data-day="sat" type="time" value="08:00" /><input class="dayClose" data-day="sat" type="time" value="18:00" /></div>
+
+        <div class="settingsRow"><div class="dayLabel">Niedziela</div><input class="dayOpen" data-day="sun" type="time" value="10:00" /><input class="dayClose" data-day="sun" type="time" value="18:00" /></div>
+
+        <div class="settingsRow"><div class="dayLabel">Tryb niedziel</div>
+          <label class="small inlineCheck"><input id="sunEvery" type="checkbox" /> Sklep otwarty w każdą niedzielę</label>
+          <label class="small inlineCheck"><input id="sunTrading" type="checkbox" /> Sklep otwarty w niedziele handlowe</label>
+        </div>
+
+        
+      </div>
+
+      
+      <div class="tripleDatesGrid" style="margin-top:8px;">
+        <div class="tripleDatesCol">
+          <div class="dayLabel">Niedziele handlowe (YYYY-MM-DD)</div>
+          <textarea id="tradingSundays" class="tradingText" placeholder="Np. 2026-03-29, 2026-04-26"></textarea>
+        </div>
+        <div class="tripleDatesCol">
+          <div class="dayLabel">Święta zamknięte (YYYY-MM-DD)</div>
+          <textarea id="closedHolidays" class="tradingText" placeholder="Np. 2026-03-29, 2026-04-26"></textarea>
+        </div>
+        <div class="tripleDatesCol">
+          <div class="dayLabel">Inwentura-Zamknięte(YYYY-MM-DD)</div>
+          <textarea id="inventoryDays" class="tradingText" placeholder="Np. 2026-03-29, 2026-04-26"></textarea>
+        </div>
+      </div>
+
+      <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:6px 0;"/>
+
+      <div class="row two" style="gap:10px;grid-template-columns:1fr 1fr;">
+        <label class="small inlineCheck"><input id="enableClosing" type="checkbox" /> Włącz automatyczne komunikaty zamknięcia</label>
+        <label class="small inlineCheck"><input id="enableNextOpenInfo" type="checkbox" /> Włącz automatyczne informacje kiedy następne otwarcie</label>
+      </div>
+
+      <div class="closingGrid" id="closingGrid"></div>
+
+      <div class="actions">
+        <button class="btn smallBtn" id="saveSettings" type="button">Zapisz</button>
+        <button class="btn smallBtn" id="closeSettings" type="button">Zamknij</button>
+      </div>
+    </div>
+  </dialog>
 
   <dialog id="infoDialog">
     <div class="dialogBody">
@@ -491,13 +879,67 @@
 
       const STORAGE_KEY = "bm_komunikaty_state_v2";
       const BASE_URL = "http://peelbee.xlx.pl/";
+      const AUDIO_CACHE_BUSTER = `cb=${Date.now()}`;
+
+      const QUICK_MESSAGES = {
+        s1: {
+          code: "s1",
+          fileNo: "s1",
+          shortDesc: "Pracownik działu dekoracja proszony na linię kas",
+          fullDesc: "Pracownik działu dekoracja proszony na linię kas",
+          url: `${BASE_URL}s1.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s2: {
+          code: "s2",
+          fileNo: "s2",
+          shortDesc: "Pracownik działu majsterkowanie proszony na linię kas",
+          fullDesc: "Pracownik działu majsterkowanie proszony na linię kas",
+          url: `${BASE_URL}s2.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s3: {
+          code: "s3",
+          fileNo: "s3",
+          shortDesc: "Pracownik działu budowlanego proszony na linię kas",
+          fullDesc: "Pracownik działu budowlanego proszony na linię kas",
+          url: `${BASE_URL}s3.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s4: {
+          code: "s4",
+          fileNo: "s4",
+          shortDesc: "Pracownik działu ogród proszony na linię kas",
+          fullDesc: "Pracownik działu ogród proszony na linię kas",
+          url: `${BASE_URL}s4.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        k1: {
+          code: "k1",
+          fileNo: "k1",
+          shortDesc: "Kasjer główny proszony do punktu informacyjnego",
+          fullDesc: "Kasjer główny proszony do punktu informacyjnego",
+          url: `${BASE_URL}k1.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        k2: {
+          code: "k2",
+          fileNo: "k2",
+          shortDesc: "Kasjer proszony na linię kas",
+          fullDesc: "Kasjer proszony na linię kas",
+          url: `${BASE_URL}k2.mp3?${AUDIO_CACHE_BUSTER}`
+        }
+      };
       const MESSAGE_CATALOG = [{"fileNo": 1, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 2, "shortDesc": "Wągrowiec I Personalny rabaty elektronarzedzia,oswietlenie,profile,rosliny 10 %", "fullDesc": "ponów"}, {"fileNo": 3, "shortDesc": "Pestka I Wielkanoc-20% kw.szt -50%", "fullDesc": "Szanowni klienci brikomarsze Pestka!\nWszystkie ozdoby wielkanocne z rabatem minus dwadzieścia procent a dodatkowo wszystkie kwiaty sztuczne z dodatkowym rabatem minus pięćdziesiąt procent.\nRABATY OD PODANYCH CEN ZOSTANĄ NALICZONE PRZY KASIE.\nŻyczymy miłych zakupów."}, {"fileNo": 4, "shortDesc": "", "fullDesc": ""}, {"fileNo": 5, "shortDesc": "", "fullDesc": ""}, {"fileNo": 6, "shortDesc": "", "fullDesc": ""}, {"fileNo": 7, "shortDesc": "", "fullDesc": ""}, {"fileNo": 8, "shortDesc": "", "fullDesc": ""}, {"fileNo": 9, "shortDesc": "", "fullDesc": ""}, {"fileNo": 10, "shortDesc": "", "fullDesc": ""}, {"fileNo": 11, "shortDesc": "", "fullDesc": ""}, {"fileNo": 12, "shortDesc": "", "fullDesc": ""}, {"fileNo": 13, "shortDesc": "", "fullDesc": ""}, {"fileNo": 14, "shortDesc": "", "fullDesc": ""}, {"fileNo": 15, "shortDesc": "", "fullDesc": ""}, {"fileNo": 16, "shortDesc": "", "fullDesc": ""}, {"fileNo": 17, "shortDesc": "", "fullDesc": ""}, {"fileNo": 18, "shortDesc": "", "fullDesc": ""}, {"fileNo": 19, "shortDesc": "", "fullDesc": ""}, {"fileNo": 20, "shortDesc": "", "fullDesc": ""}, {"fileNo": 21, "shortDesc": "", "fullDesc": ""}, {"fileNo": 22, "shortDesc": "", "fullDesc": ""}, {"fileNo": 23, "shortDesc": "", "fullDesc": ""}, {"fileNo": 24, "shortDesc": "", "fullDesc": ""}, {"fileNo": 25, "shortDesc": "", "fullDesc": ""}, {"fileNo": 26, "shortDesc": "", "fullDesc": ""}, {"fileNo": 27, "shortDesc": "", "fullDesc": ""}, {"fileNo": 28, "shortDesc": "", "fullDesc": ""}, {"fileNo": 29, "shortDesc": "", "fullDesc": ""}, {"fileNo": 30, "shortDesc": "", "fullDesc": ""}, {"fileNo": 31, "shortDesc": "", "fullDesc": ""}, {"fileNo": 32, "shortDesc": "", "fullDesc": ""}, {"fileNo": 33, "shortDesc": "", "fullDesc": ""}, {"fileNo": 34, "shortDesc": "", "fullDesc": ""}, {"fileNo": 35, "shortDesc": "", "fullDesc": ""}, {"fileNo": 36, "shortDesc": "", "fullDesc": ""}, {"fileNo": 37, "shortDesc": "", "fullDesc": ""}, {"fileNo": 38, "shortDesc": "", "fullDesc": ""}, {"fileNo": 39, "shortDesc": "", "fullDesc": ""}, {"fileNo": 40, "shortDesc": "", "fullDesc": ""}, {"fileNo": 41, "shortDesc": "", "fullDesc": ""}, {"fileNo": 42, "shortDesc": "", "fullDesc": ""}, {"fileNo": 43, "shortDesc": "", "fullDesc": ""}, {"fileNo": 44, "shortDesc": "", "fullDesc": ""}, {"fileNo": 45, "shortDesc": "", "fullDesc": ""}, {"fileNo": 46, "shortDesc": "", "fullDesc": ""}, {"fileNo": 47, "shortDesc": "", "fullDesc": ""}, {"fileNo": 48, "shortDesc": "", "fullDesc": ""}, {"fileNo": 49, "shortDesc": "", "fullDesc": ""}, {"fileNo": 50, "shortDesc": "", "fullDesc": ""}, {"fileNo": 51, "shortDesc": "", "fullDesc": ""}, {"fileNo": 52, "shortDesc": "", "fullDesc": ""}, {"fileNo": 53, "shortDesc": "", "fullDesc": ""}, {"fileNo": 54, "shortDesc": "", "fullDesc": ""}, {"fileNo": 55, "shortDesc": "", "fullDesc": ""}, {"fileNo": 56, "shortDesc": "", "fullDesc": ""}, {"fileNo": 57, "shortDesc": "", "fullDesc": ""}, {"fileNo": 58, "shortDesc": "", "fullDesc": ""}, {"fileNo": 59, "shortDesc": "", "fullDesc": ""}, {"fileNo": 60, "shortDesc": "", "fullDesc": ""}, {"fileNo": 61, "shortDesc": "", "fullDesc": ""}, {"fileNo": 62, "shortDesc": "", "fullDesc": ""}, {"fileNo": 63, "shortDesc": "", "fullDesc": ""}, {"fileNo": 64, "shortDesc": "", "fullDesc": ""}, {"fileNo": 65, "shortDesc": "", "fullDesc": ""}, {"fileNo": 66, "shortDesc": "", "fullDesc": ""}, {"fileNo": 67, "shortDesc": "", "fullDesc": ""}, {"fileNo": 68, "shortDesc": "", "fullDesc": ""}, {"fileNo": 69, "shortDesc": "", "fullDesc": ""}, {"fileNo": 70, "shortDesc": "", "fullDesc": ""}, {"fileNo": 71, "shortDesc": "", "fullDesc": ""}, {"fileNo": 72, "shortDesc": "", "fullDesc": ""}, {"fileNo": 73, "shortDesc": "", "fullDesc": ""}, {"fileNo": 74, "shortDesc": "", "fullDesc": ""}, {"fileNo": 75, "shortDesc": "", "fullDesc": ""}, {"fileNo": 76, "shortDesc": "", "fullDesc": ""}, {"fileNo": 77, "shortDesc": "", "fullDesc": ""}, {"fileNo": 78, "shortDesc": "", "fullDesc": ""}, {"fileNo": 79, "shortDesc": "", "fullDesc": ""}, {"fileNo": 80, "shortDesc": "", "fullDesc": ""}, {"fileNo": 81, "shortDesc": "", "fullDesc": ""}, {"fileNo": 82, "shortDesc": "", "fullDesc": ""}, {"fileNo": 83, "shortDesc": "", "fullDesc": ""}, {"fileNo": 84, "shortDesc": "", "fullDesc": ""}, {"fileNo": 85, "shortDesc": "", "fullDesc": ""}, {"fileNo": 86, "shortDesc": "", "fullDesc": ""}, {"fileNo": 87, "shortDesc": "", "fullDesc": ""}, {"fileNo": 88, "shortDesc": "", "fullDesc": ""}, {"fileNo": 89, "shortDesc": "", "fullDesc": ""}, {"fileNo": 90, "shortDesc": "", "fullDesc": ""}, {"fileNo": 91, "shortDesc": "", "fullDesc": ""}, {"fileNo": 92, "shortDesc": "", "fullDesc": ""}, {"fileNo": 93, "shortDesc": "", "fullDesc": ""}, {"fileNo": 94, "shortDesc": "", "fullDesc": ""}, {"fileNo": 95, "shortDesc": "", "fullDesc": ""}, {"fileNo": 96, "shortDesc": "", "fullDesc": ""}, {"fileNo": 97, "shortDesc": "", "fullDesc": ""}, {"fileNo": 98, "shortDesc": "", "fullDesc": ""}, {"fileNo": 99, "shortDesc": "", "fullDesc": ""}, {"fileNo": 100, "shortDesc": "", "fullDesc": ""}];
       const AVAILABLE_MESSAGES = MESSAGE_CATALOG.filter((item) => (item.shortDesc || "").trim().length > 0);
+
+      const CLOSING_MESSAGE_CATALOG = Array.from({ length: 100 }, (_, i) => ({
+        fileNo: i + 1,
+        shortDesc: `z${i + 1}.mp3`,
+        fullDesc: `Komunikat zamknięcia z${i + 1}.mp3`
+      }));
 
       const clockEl = document.getElementById("clock");
       const dateEl = document.getElementById("date");
       const toggleBtn = document.getElementById("toggle");
-      const clearMemoryBtn = document.getElementById("clearMemory");
+      const resetSettingsBtn = document.getElementById("resetSettings");
+      const openSettingsBtn = document.getElementById("openSettings");
+      const quickButtons = Array.from(document.querySelectorAll("[data-quick-code]"));
       const statusEl = document.getElementById("status");
 
       const intervalMinutesInput = document.getElementById("intervalMinutes");
@@ -532,6 +974,18 @@
       const infoDialogText = document.getElementById("infoDialogText");
       const closeInfoDialogBtn = document.getElementById("closeInfoDialog");
 
+      const settingsDialog = document.getElementById("settingsDialog");
+      const saveSettingsBtn = document.getElementById("saveSettings");
+      const closeSettingsBtn = document.getElementById("closeSettings");
+      const enableClosingEl = document.getElementById("enableClosing");
+      const enableNextOpenInfoEl = document.getElementById("enableNextOpenInfo");
+      const closingGridEl = document.getElementById("closingGrid");
+      const sunEveryEl = document.getElementById("sunEvery");
+      const sunTradingEl = document.getElementById("sunTrading");
+      const tradingSundaysEl = document.getElementById("tradingSundays");
+      const closedHolidaysEl = document.getElementById("closedHolidays");
+      const inventoryDaysEl = document.getElementById("inventoryDays");
+
       let currentAudioMeta = null;
       let durationMs = 0;
       let minIntervalSeconds = 1;
@@ -544,6 +998,49 @@
       let nextSlotId = 1;
       let nextPlaybackAt = null;
       const slotMessageIndexMap = {};
+      let quickQueue = [];
+      let quickMessageDurations = {};
+      let quickInProgress = false;
+
+      const CLOSING_MARKERS = [
+        { minutes: 30, label: "30 min" },
+        { minutes: 25, label: "25 min" },
+        { minutes: 20, label: "20 min" },
+        { minutes: 15, label: "15 min" },
+        { minutes: 10, label: "10 min" },
+        { minutes: 5,  label: "5 min" },
+        { minutes: 0,  label: "Zamykający" }
+      ];
+
+      const DEFAULT_STORE_SETTINGS = {
+        hours: {
+          mon: { open: "08:00", close: "20:00" },
+          tue: { open: "08:00", close: "20:00" },
+          wed: { open: "08:00", close: "20:00" },
+          thu: { open: "08:00", close: "20:00" },
+          fri: { open: "08:00", close: "20:00" },
+          sat: { open: "08:00", close: "18:00" },
+          sun: { open: "10:00", close: "18:00" }
+        },
+        sundayMode: "closed",
+        tradingSundays: [],
+        closedHolidays: [],
+        inventoryDays: [],
+        closingEnabled: false,
+        nextOpenInfoEnabled: false,
+        closingMessages: {
+          30: { enabled: false, fileNo: null },
+          25: { enabled: false, fileNo: null },
+          20: { enabled: false, fileNo: null },
+          15: { enabled: false, fileNo: null },
+          10: { enabled: false, fileNo: null },
+          5:  { enabled: false, fileNo: null },
+          0:  { enabled: false, fileNo: null }
+        }
+      };
+
+      let storeSettings = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS));
+      let closingPlayedByDate = {};
 
       try {
         if (location.protocol === "https:" && BASE_URL.startsWith("http://")) {
@@ -587,7 +1084,7 @@
       }
 
       function buildUrl(fileNo) {
-        return `${BASE_URL}${Number(fileNo)}.mp3`;
+        return `${BASE_URL}${Number(fileNo)}.mp3?${AUDIO_CACHE_BUSTER}`;
       }
 
       function buildFileOptions(selected = 1) {
@@ -741,6 +1238,50 @@
 
       closeInfoDialogBtn.addEventListener("click", () => infoDialog.close());
 
+      function enforceSundayExclusion(changed){
+        if (changed === "every" && sunEveryEl.checked) sunTradingEl.checked = false;
+        if (changed === "trading" && sunTradingEl.checked) sunEveryEl.checked = false;
+      }
+      sunEveryEl.addEventListener("change", () => enforceSundayExclusion("every"));
+      sunTradingEl.addEventListener("change", () => enforceSundayExclusion("trading"));
+
+      openSettingsBtn.addEventListener("click", openSettings);
+      closeSettingsBtn.addEventListener("click", closeSettings);
+
+      saveSettingsBtn.addEventListener("click", () => {
+        readSettingsFromDialog();
+        saveState();
+        closeSettings();
+      });
+
+      resetSettingsBtn.addEventListener("click", resetMemory);
+
+      quickButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const code = btn.getAttribute("data-quick-code");
+          enqueueQuickMessage(code);
+        });
+      });
+
+      function syncAutoInfoToggle(){
+        const enabled = !!enableClosingEl.checked;
+        enableNextOpenInfoEl.disabled = !enabled;
+        if (!enabled) {
+          enableNextOpenInfoEl.checked = false;
+        }
+      }
+
+      enableClosingEl.addEventListener("change", () => {
+        syncAutoInfoToggle();
+      });
+
+      enableNextOpenInfoEl.addEventListener("change", () => {
+        if (!enableClosingEl.checked) {
+          enableNextOpenInfoEl.checked = false;
+        }
+      });
+
+
       function updateDurationInfo() {
         const d = audioEl.duration;
         if (Number.isFinite(d) && d > 0) {
@@ -851,6 +1392,331 @@
         const lastPlayAt = new Date(Date.now() + Math.max(0, state.fromNow - 1) * getEffectiveIntervalMs());
         const messagesCount = Math.max(1, getCountMessages().length);
         countPlanInfoEl.textContent = `Od teraz: ${state.fromNow} odtworzeń • komunikatów w pętli: ${messagesCount} • ostatnie planowane: ${formatDateTime(lastPlayAt)}`;
+      }
+
+
+
+      function preloadQuickDurations(){
+        Object.values(QUICK_MESSAGES).forEach((msg) => {
+          try{
+            const a = new Audio();
+            a.preload = "metadata";
+            a.src = msg.url;
+            a.addEventListener("loadedmetadata", () => {
+              if (Number.isFinite(a.duration) && a.duration > 0){
+                quickMessageDurations[msg.code] = Math.ceil(a.duration * 1000);
+              }
+            });
+          } catch(_){}
+        });
+      }
+
+      function renderQuickQueue(){
+        updateQueuePreview();
+      }
+
+      function getQuickDurationMs(msg){
+        return quickMessageDurations[msg.code] || 0;
+      }
+
+      function getTimeUntilNextRegularMs(){
+        if (!running || !nextPlaybackAt) return Infinity;
+        return Math.max(0, nextPlaybackAt - Date.now());
+      }
+
+      function canPlayQuickBeforeNextRegular(msg){
+        if (!msg) return false;
+        if (!audioEl.paused) return false;
+        const nextMs = getTimeUntilNextRegularMs();
+        if (!Number.isFinite(nextMs) || nextMs === Infinity) return true;
+        if (nextMs <= 0) return false;
+
+        const dur = getQuickDurationMs(msg);
+        if (!dur) return nextMs > 8000;
+        return (dur + 800) < nextMs;
+      }
+
+      async function playQuickNow(){
+        if (!quickQueue.length) return;
+        if (!audioEl.paused) return;
+
+        const msg = quickQueue[0];
+        if (!canPlayQuickBeforeNextRegular(msg)) return;
+
+        quickQueue.shift();
+        renderQuickQueue();
+        quickInProgress = true;
+
+        const res = await playMessage(msg);
+        if (res.started){
+          setStatus(`Jednorazowy komunikat: ${msg.fileNo}.mp3 — ${msg.shortDesc}`);
+          saveState();
+          return;
+        }
+
+        quickInProgress = false;
+        if (res.reason !== "playing"){
+          setStatus(`Nie mogę odtworzyć ${msg.fileNo}.mp3.`);
+        }
+      }
+
+      function processQuickQueue(){
+        if (!quickQueue.length) return;
+        if (audioEl.paused && !playingLock){
+          playQuickNow();
+        }
+      }
+
+      function enqueueQuickMessage(code){
+        const msg = QUICK_MESSAGES[code];
+        if (!msg) return;
+        quickQueue.push({ ...msg });
+        renderQuickQueue();
+        processQuickQueue();
+        setTimeout(processQuickQueue, 1200);
+      }
+
+
+      function ymd(date){
+        const y = date.getFullYear();
+        const m = pad2(date.getMonth()+1);
+        const d = pad2(date.getDate());
+        return `${y}-${m}-${d}`;
+      }
+
+      function weekdayKey(date){
+        const map = ["sun","mon","tue","wed","thu","fri","sat"];
+        return map[date.getDay()];
+      }
+
+      function isTradingSunday(date){
+        const key = ymd(date);
+        return (storeSettings.tradingSundays || []).includes(key);
+      }
+
+      function isClosedSpecial(date){
+        const key = ymd(date);
+        if ((storeSettings.closedHolidays || []).includes(key)) return true;
+        if ((storeSettings.inventoryDays || []).includes(key)) return true;
+        return false;
+      }
+
+      function isStoreOpenToday(date){
+        if (isClosedSpecial(date)) return false;
+        const day = weekdayKey(date);
+        if (day !== "sun") return true;
+        if (storeSettings.sundayMode === "every") return true;
+        if (storeSettings.sundayMode === "trading") return isTradingSunday(date);
+        return false;
+      }
+
+      function getTodayHours(date){
+        const day = weekdayKey(date);
+        const h = (storeSettings.hours && storeSettings.hours[day]) ? storeSettings.hours[day] : null;
+        return h || { open: "08:00", close: "20:00" };
+      }
+
+      function minutesFromTimeStr(t){
+        const [hh, mm] = String(t||"0:0").split(":");
+        const h = Math.min(23, Math.max(0, Number(hh||0)));
+        const m = Math.min(59, Math.max(0, Number(mm||0)));
+        return h*60 + m;
+      }
+
+      function getCloseDateTime(date){
+        const hours = getTodayHours(date);
+        const closeMin = minutesFromTimeStr(hours.close);
+        const close = new Date(date);
+        close.setHours(Math.floor(closeMin/60), closeMin%60, 0, 0);
+        return close;
+      }
+
+      function getOpenDateTime(date){
+        const hours = getTodayHours(date);
+        const openMin = minutesFromTimeStr(hours.open);
+        const open = new Date(date);
+        open.setHours(Math.floor(openMin/60), openMin%60, 0, 0);
+        return open;
+      }
+
+      function isWithinOpenHours(date){
+        if (!isStoreOpenToday(date)) return false;
+        const open = getOpenDateTime(date);
+        const close = getCloseDateTime(date);
+        return date >= open && date < close;
+      }
+
+      function getMinutesToClose(now){
+        if (!isWithinOpenHours(now)) return null;
+        const close = getCloseDateTime(now);
+        return (close.getTime() - now.getTime()) / 60000;
+      }
+
+      function getNextOpeningDateTime(now){
+        // if today open later
+        const today = new Date(now);
+        const openToday = getOpenDateTime(today);
+        if (isStoreOpenToday(today) && now < openToday) return openToday;
+        // if currently open
+        if (isWithinOpenHours(now)) return now;
+        // search next 14 days
+        for (let i = 1; i <= 14; i += 1){
+          const d = new Date(now);
+          d.setDate(d.getDate() + i);
+          if (!isStoreOpenToday(d)) continue;
+          return getOpenDateTime(d);
+        }
+        return null;
+      }
+
+
+      function getClosingCatalogEntry(fileNo){
+        const no = Math.max(1, Math.min(100, Number(fileNo || 1)));
+        return {
+          fileNo: no,
+          shortDesc: `z${no}.mp3`,
+          fullDesc: `Komunikat zamknięcia z${no}.mp3`,
+          url: `${BASE_URL}z${no}.mp3?${AUDIO_CACHE_BUSTER}`
+        };
+      }
+
+      function buildClosingSelectOptions(selectedNo){
+        return CLOSING_MESSAGE_CATALOG.map((item) => {
+          const sel = Number(item.fileNo) === Number(selectedNo) ? " selected" : "";
+          return `<option value="${item.fileNo}"${sel}>z${item.fileNo}.mp3</option>`;
+        }).join("");
+      }
+
+      function buildSelectOptions(selectedNo){
+        return AVAILABLE_MESSAGES.map((item) => {
+          const sel = Number(item.fileNo) === Number(selectedNo) ? " selected" : "";
+          return `<option value="${item.fileNo}"${sel}>${item.fileNo}.mp3 — ${item.shortDesc}</option>`;
+        }).join("");
+      }
+
+      function renderClosingGrid(){
+        closingGridEl.innerHTML = CLOSING_MARKERS.map((m) => {
+          const conf = storeSettings.closingMessages[String(m.minutes)] || { enabled:false, fileNo:null };
+          const checked = conf.enabled ? "checked" : "";
+          const selected = conf.fileNo || (AVAILABLE_MESSAGES[0]?.fileNo || 1);
+          return `
+            <div class="closingRow" data-min="${m.minutes}">
+              <label class="inlineCheck">
+                <input class="closingEnabled" type="checkbox" ${checked} />
+                ${m.label}
+              </label>
+              <select class="closingSelect">
+                ${buildClosingSelectOptions(selected)}
+              </select>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function applySettingsToDialog(){
+        document.querySelectorAll("#settingsDialog .dayOpen").forEach((el) => {
+          const day = el.getAttribute("data-day");
+          el.value = storeSettings.hours?.[day]?.open || "08:00";
+        });
+        document.querySelectorAll("#settingsDialog .dayClose").forEach((el) => {
+          const day = el.getAttribute("data-day");
+          el.value = storeSettings.hours?.[day]?.close || "20:00";
+        });
+
+        sunEveryEl.checked = storeSettings.sundayMode === "every";
+        sunTradingEl.checked = storeSettings.sundayMode === "trading";
+        tradingSundaysEl.value = (storeSettings.tradingSundays || []).join(", ");
+        closedHolidaysEl.value = (storeSettings.closedHolidays || []).join(", ");
+        inventoryDaysEl.value = (storeSettings.inventoryDays || []).join(", ");
+
+        enableClosingEl.checked = !!storeSettings.closingEnabled;
+        enableNextOpenInfoEl.checked = !!storeSettings.nextOpenInfoEnabled;
+        syncAutoInfoToggle();
+
+        renderClosingGrid();
+      }
+
+      function readSettingsFromDialog(){
+        const hours = {};
+        ["mon","tue","wed","thu","fri","sat","sun"].forEach((d) => {
+          const open = document.querySelector(`#settingsDialog .dayOpen[data-day="${d}"]`)?.value || "08:00";
+          const close = document.querySelector(`#settingsDialog .dayClose[data-day="${d}"]`)?.value || "20:00";
+          hours[d] = { open, close };
+        });
+
+        let sundayMode = "closed";
+        if (sunEveryEl.checked) sundayMode = "every";
+        if (sunTradingEl.checked) sundayMode = "trading";
+
+        const dates = (tradingSundaysEl.value || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter((s) => /^\d{4}-\d{2}-\d{2}$/.test(s));
+
+        const holidays = (closedHolidaysEl.value || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter((s) => /^\d{4}-\d{2}-\d{2}$/.test(s));
+
+        const inventory = (inventoryDaysEl.value || "")
+          .split(",")
+          .map((s) => s.trim())
+          .filter((s) => /^\d{4}-\d{2}-\d{2}$/.test(s));
+
+        const closingMessages = {};
+        closingGridEl.querySelectorAll(".closingRow").forEach((row) => {
+          const min = row.getAttribute("data-min");
+          const enabled = !!row.querySelector(".closingEnabled")?.checked;
+          const fileNo = Number(row.querySelector(".closingSelect")?.value || 0) || null;
+          closingMessages[String(min)] = { enabled, fileNo };
+        });
+
+        storeSettings = {
+          hours,
+          sundayMode,
+          tradingSundays: dates,
+          closedHolidays: holidays,
+          inventoryDays: inventory,
+          closingEnabled: !!enableClosingEl.checked,
+          nextOpenInfoEnabled: !!(enableClosingEl.checked && enableNextOpenInfoEl.checked),
+          closingMessages
+        };
+      }
+
+      function openSettings(){
+        applySettingsToDialog();
+        syncAutoInfoToggle();
+        settingsDialog.showModal();
+      }
+
+      function closeSettings(){
+        settingsDialog.close();
+      }
+
+      function getClosingMessageToPlay(now){
+        if (!storeSettings.closingEnabled) return null;
+        if (!isWithinOpenHours(now)) return null;
+
+        const minToClose = getMinutesToClose(now);
+        if (minToClose === null) return null;
+
+        const todayKey = ymd(now);
+        if (!closingPlayedByDate[todayKey]) closingPlayedByDate[todayKey] = {};
+
+        for (const marker of CLOSING_MARKERS){
+          const m = marker.minutes;
+          const conf = storeSettings.closingMessages?.[String(m)];
+          if (!conf || !conf.enabled || !conf.fileNo) continue;
+          if (closingPlayedByDate[todayKey][String(m)]) continue;
+
+          const upper = m;
+          const lower = m - 1;
+          if (minToClose <= upper && minToClose > lower){
+            closingPlayedByDate[todayKey][String(m)] = true;
+            return getClosingCatalogEntry(conf.fileNo);
+          }
+        }
+        return null;
       }
 
       function parseTimeToMinutes(t) {
@@ -1082,15 +1948,20 @@
           srcInfoEl.textContent = "Wybierz komunikat do podglądu.";
         }
 
-        const queue = getQueueMessagesForPreview().filter((m) => !currentAudioMeta || Number(m.fileNo) !== Number(currentAudioMeta.fileNo));
-        if (!queue.length) {
+        const regularQueue = getQueueMessagesForPreview().filter((m) => !currentAudioMeta || Number(m.fileNo) !== Number(currentAudioMeta.fileNo));
+        const quickQueuePreview = quickQueue.map((message) => ({
+          shortDesc: `[Jednorazowy] ${message.shortDesc}`
+        }));
+
+        if (!regularQueue.length && !quickQueuePreview.length) {
           audioQueueListEl.innerHTML = `<div class="audioSubtle">Brak innych wybranych komunikatów.</div>`;
           return;
         }
 
         const baseSec = getQueueBaseSeconds();
         const intervalSec = getEffectiveIntervalSeconds();
-        audioQueueListEl.innerHTML = queue.map((message, idx) => {
+
+        const regularHtml = regularQueue.map((message, idx) => {
           const sec = baseSec + (idx * intervalSec);
           return `
             <div class="queueItem">
@@ -1099,12 +1970,46 @@
             </div>
           `;
         }).join("");
+
+        const quickHtml = quickQueuePreview.map((message) => {
+          return `
+            <div class="queueItem">
+              <div>${message.shortDesc}</div>
+              <div class="queueTimer">oczekuje</div>
+            </div>
+          `;
+        }).join("");
+
+        audioQueueListEl.innerHTML = regularHtml + quickHtml;
       }
 
       async function loop() {
         if (!running) return;
 
         updateDurationInfo();
+
+        const nowAuto = new Date();
+        if (storeSettings.nextOpenInfoEnabled && !isWithinOpenHours(nowAuto)) {
+          const nextOpen = getNextOpeningDateTime(nowAuto);
+          if (nextOpen) {
+            // tylko informacyjnie w pasku statusu (bez dźwięku)
+            // nie przerywamy odtwarzania zwykłych komunikatów
+          }
+        }
+
+        const closingMsg = getClosingMessageToPlay(nowAuto);
+        if (closingMsg) {
+          const resC = await playMessage(closingMsg);
+          if (resC.started) {
+            setStatus(`Komunikat zamknięcia: ${closingMsg.fileNo}.mp3 — ${closingMsg.shortDesc}`);
+            nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+            updateQueuePreview();
+            saveState();
+            loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+            setTimeout(processQuickQueue, 50);
+            return;
+          }
+        }
 
         if (getMode() === "count") {
           if (remainingPlays <= 0) {
@@ -1182,6 +2087,7 @@
           updateQueuePreview();
           saveState();
           loopHandle = setTimeout(loop, getEffectiveIntervalMs());
+          setTimeout(processQuickQueue, 50);
           return;
         }
 
@@ -1334,6 +2240,8 @@
             };
           }),
           currentPreviewFileNo: currentAudioMeta?.fileNo || null,
+          storeSettings: storeSettings,
+          closingPlayedByDate: closingPlayedByDate,
         };
       }
 
@@ -1385,6 +2293,19 @@
         countMessagesEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
         hoursSlotsEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
 
+        if (state.storeSettings) {
+          storeSettings = Object.assign({}, JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS)), state.storeSettings);
+          storeSettings.hours = Object.assign({}, DEFAULT_STORE_SETTINGS.hours, storeSettings.hours || {});
+          storeSettings.closingMessages = Object.assign({}, DEFAULT_STORE_SETTINGS.closingMessages, storeSettings.closingMessages || {});
+          storeSettings.tradingSundays = storeSettings.tradingSundays || [];
+          storeSettings.closedHolidays = storeSettings.closedHolidays || [];
+          storeSettings.inventoryDays = storeSettings.inventoryDays || [];
+          storeSettings.nextOpenInfoEnabled = !!storeSettings.nextOpenInfoEnabled;
+        }
+        if (state.closingPlayedByDate) {
+          closingPlayedByDate = state.closingPlayedByDate;
+        }
+
         const previewNo = state.currentPreviewFileNo ? getCatalogEntry(state.currentPreviewFileNo).fileNo : null;
         if (previewNo) {
           setAudioFromMessage(getCatalogEntry(previewNo), false);
@@ -1395,12 +2316,32 @@
 
       function resetMemory() {
         try {
-          localStorage.removeItem(STORAGE_KEY);
+          const raw = localStorage.getItem(STORAGE_KEY);
+          let preservedStoreSettings = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS));
+          if (raw) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.storeSettings) {
+              preservedStoreSettings = parsed.storeSettings;
+            }
+          }
+
+          const resetState = {
+            mode: "count",
+            countValue: "250",
+            intervalMinutes: "5",
+            intervalSeconds: "0",
+            countMessages: [AVAILABLE_MESSAGES[0]?.fileNo || 1],
+            hoursSlots: [{ start: "08:00", end: "09:00", messages: [AVAILABLE_MESSAGES[0]?.fileNo || 1] }],
+            currentPreviewFileNo: AVAILABLE_MESSAGES[0]?.fileNo || null,
+            storeSettings: preservedStoreSettings,
+            closingPlayedByDate: {}
+          };
+
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(resetState));
         } catch (_) {}
         location.reload();
       }
 
-      clearMemoryBtn.addEventListener("click", resetMemory);
 
       toggleBtn.addEventListener("click", () => {
         if (running) stop();
@@ -1532,11 +2473,14 @@
 
       setInterval(() => {
         updateQueuePreview();
+        processQuickQueue();
       }, 1000);
 
       const restored = applyState(loadState());
 
       if (!restored) {
+        storeSettings = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS));
+        closingPlayedByDate = {};
         countMessagesEl.appendChild(createMessageRow(AVAILABLE_MESSAGES[0]?.fileNo || 1));
         hoursSlotsEl.appendChild(createHoursSlot("08:00", "09:00"));
         setIntervalInputsFromSeconds(300);
@@ -1548,6 +2492,8 @@
       countMessagesEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
       hoursSlotsEl.querySelectorAll(".messageRow").forEach(refreshMessageRowTitle);
 
+      preloadQuickDurations();
+      renderQuickQueue();
       updateCountPreview();
       updateHoursSummary();
       syncModeUI();
