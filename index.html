@@ -1553,6 +1553,7 @@
         const todayKey = ymd(new Date());
         closingPlayedByDate[todayKey] = {};
 
+        updateClosingWatcher();
         saveState();
         closeSettings();
       });
@@ -1576,6 +1577,7 @@
 
       enableClosingEl.addEventListener("change", () => {
         syncAutoInfoToggle();
+      updateClosingWatcher();
       });
 
       enableNextOpenInfoEl.addEventListener("change", () => {
@@ -2064,7 +2066,6 @@
       }
 
       async function checkClosingAnnouncements(){
-        if (!running) return;
         normalizeClosingMessageSettings();
 
         const nowAuto = new Date();
@@ -2081,10 +2082,30 @@
           closingPlayedByDate[closingInfo.todayKey][String(closingInfo.markerMinutes)] = true;
 
           setStatus(`Komunikat zamknięcia: ${closingInfo.message.fileNo}.mp3 — ${closingInfo.message.shortDesc}`);
-          nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          if (running) {
+            nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          }
           updateQueuePreview();
           saveState();
         }
+      }
+
+
+      function updateClosingWatcher(){
+        // działa niezależnie od Start/Stop: zależy tylko od ustawienia w Ustawieniach
+        try{
+          if (closingWatcherHandle) {
+            clearInterval(closingWatcherHandle);
+            closingWatcherHandle = null;
+          }
+          if (storeSettings && storeSettings.closingEnabled) {
+            closingWatcherHandle = setInterval(() => {
+              checkClosingAnnouncements();
+            }, 5000);
+            // od razu sprawdź po włączeniu
+            setTimeout(checkClosingAnnouncements, 0);
+          }
+        } catch(_){}
       }
 
       function parseTimeToMinutes(t) {
@@ -2397,7 +2418,6 @@
       }
 
       async function loop() {
-        if (!running) return;
 
         updateDurationInfo();
 
@@ -2437,7 +2457,9 @@
             updateCountPreview();
             setStatus(`Odtwarzam: ${nextMessage.fileNo}.mp3 — ${nextMessage.shortDesc} • pozostało: ${remainingPlays}`);
 
+            if (running) {
             nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          }
             updateQueuePreview();
             saveState();
             loopHandle = setTimeout(loop, getEffectiveIntervalMs());
@@ -2484,7 +2506,9 @@
         if (res.started) {
           advanceHoursMessageIndex(nextHours.slotId, nextHours.messagesCount);
           setStatus(`Odtwarzam: ${nextHours.message.fileNo}.mp3 — ${nextHours.message.shortDesc} • przedział ${nextHours.slotLabel}`);
-          nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          if (running) {
+            nextPlaybackAt = Date.now() + getEffectiveIntervalMs();
+          }
           updateQueuePreview();
           saveState();
           loopHandle = setTimeout(loop, getEffectiveIntervalMs());
@@ -2530,23 +2554,14 @@
         syncToggleVisualState();
         updateQueuePreview();
 
-        if (closingWatcherHandle) clearInterval(closingWatcherHandle);
-        closingWatcherHandle = setInterval(() => {
-          checkClosingAnnouncements();
-        }, 5000);
-        checkClosingAnnouncements();
-
         loopHandle = setTimeout(loop, 0);
       }
 
       function stop() {
-        if (!running) return;
         running = false;
 
         if (loopHandle) clearTimeout(loopHandle);
         loopHandle = null;
-        if (closingWatcherHandle) clearInterval(closingWatcherHandle);
-        closingWatcherHandle = null;
         nextPlaybackAt = null;
 
         toggleBtn.textContent = "Start";
@@ -2593,7 +2608,6 @@
       }
 
       function restartLoopIfNeeded() {
-        if (!running) return;
         if (loopHandle) clearTimeout(loopHandle);
         nextPlaybackAt = Date.now();
         loopHandle = setTimeout(loop, 0);
@@ -2913,6 +2927,7 @@
       preloadQuickDurations();
       renderQuickQueue();
       syncToggleVisualState();
+      updateClosingWatcher();
       updateCountPreview();
       updateHoursSummary();
       syncModeUI();
