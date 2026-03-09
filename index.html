@@ -1190,7 +1190,8 @@
       "use strict";
 
       const STORAGE_KEY = "bm_komunikaty_state_v2";
-      const BASE_URL = "http://peelbee.xlx.pl/";
+      const BASE_HOST = "peelbee.xlx.pl";
+      const BASE_URL = (location.protocol === "http:" || location.protocol === "https:") ? `${location.protocol}//${BASE_HOST}/` : `http://${BASE_HOST}/`;
       const AUDIO_CACHE_BUSTER = `cb=${Date.now()}`;
 
       const QUICK_MESSAGES = {
@@ -2971,22 +2972,54 @@
         audioCurrentTitleEl.textContent = message.shortDesc || `${message.fileNo}.mp3`;
         srcInfoEl.textContent = `${message.fileNo}.mp3 • ${message.url}`;
 
-        try { audioEl.pause(); } catch(_) {}
-        try { audioEl.currentTime = 0; } catch(_) {}
-
-        audioEl.src = message.url;
-        audioEl.load();
-
-        try {
+        const tryPlayViaMainAudio = async (url) => {
+          try { audioEl.pause(); } catch(_) {}
+          try { audioEl.currentTime = 0; } catch(_) {}
+          audioEl.src = url;
+          audioEl.load();
           await audioEl.play();
-          setStatus(`Odtwarzanie testowe: ${message.fileNo}.mp3`);
-          updateQueuePreview();
-        } catch (err) {
-          setStatus(`Nie udało się odtworzyć ${message.fileNo}.mp3`, "bad");
+        };
+
+        const tryPlayViaNewAudio = async (url) => {
+          const a = new Audio(url);
+          a.preload = "auto";
+          window.__closingPreviewAudio = a; // utrzymaj referencję (mobile)
+          await a.play();
+        };
+
+        const swapProtocol = (url) => {
+          if (url.startsWith("https://")) return "http://" + url.slice("https://".length);
+          if (url.startsWith("http://")) return "https://" + url.slice("http://".length);
+          return null;
+        };
+
+        const candidates = [message.url];
+        const alt = swapProtocol(message.url);
+        if (alt) candidates.push(alt);
+
+        for (const url of candidates) {
+          try {
+            await tryPlayViaMainAudio(url);
+            setStatus(`Odtwarzanie testowe: ${message.fileNo}.mp3`);
+            updateQueuePreview();
+            return;
+          } catch (err1) {
+            try {
+              await tryPlayViaNewAudio(url);
+              setStatus(`Odtwarzanie testowe: ${message.fileNo}.mp3`);
+              updateQueuePreview();
+              return;
+            } catch (err2) {
+              // próbujemy kolejną opcję URL
+              console.warn("Odtwórz nie działa dla:", url, err1, err2);
+            }
+          }
         }
+
+        setStatus(`Nie udało się odtworzyć ${message.fileNo}.mp3`, "bad");
       });
 
-    })();
+})();
   </script>
 </body>
 </html>
