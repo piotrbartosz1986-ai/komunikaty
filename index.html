@@ -940,6 +940,24 @@
       }
     }
 
+  
+    .closingRow{
+      grid-template-columns:auto minmax(0,1fr) auto;
+    }
+    .closingPreview{
+      white-space:nowrap;
+      padding:8px 10px;
+      font-weight:800;
+    }
+    @media (max-width:760px){
+      .closingRow{
+        grid-template-columns:1fr;
+      }
+      .closingPreview{
+        width:100%;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1227,9 +1245,9 @@
         "25": ["z25z1", "z25z2", "z25z3"],
         "20": ["z20z1", "z20z2", "z20z3"],
         "15": ["z15z1", "z15z2", "z15z3"],
-        "10": ["z10z1", "z10z2", "z30z3"],
+        "10": ["z10z1", "z10z2", "z10z3"],
         "5": ["z5z1", "z5z2", "z5z3"],
-        "0": ["z0z1", "z0z2", "z0z2"]
+        "0": ["z0z1", "z0z2", "z0z3"]
       };
 
       const clockEl = document.getElementById("clock");
@@ -1416,7 +1434,7 @@
               <select class="fileSelect" aria-label="Wybierz komunikat" title="${escapeAttr(fullTitle)}">${buildFileOptions(fileNo)}</select>
             </label>
             <button class="btn smallBtn infoButton showInfo" type="button" title="${escapeAttr(fullTitle)}">ℹ</button>
-            <button class="btn smallBtn previewMessage" type="button" title="${escapeAttr(fullTitle)}">Podgląd</button>
+            <button class="btn smallBtn previewMessage" type="button" title="${escapeAttr(fullTitle)}">Odtwórz</button>
             <button class="btn smallBtn removeMessage" type="button" title="Usuń ten komunikat">Usuń</button>
           </div>
         `;
@@ -1940,6 +1958,7 @@
               <select class="closingSelect">
                 ${buildClosingSelectOptions(m.minutes, selected)}
               </select>
+              <button class="btn smallBtn closingPreview" type="button">Odtwórz</button>
             </div>
           `;
         }).join("");
@@ -2933,6 +2952,40 @@
       syncModeUI();
       updateDurationInfo();
       updateQueuePreview();
+
+      closingGridEl.addEventListener("click", async (event) => {
+        const btn = event.target.closest(".closingPreview");
+        if (!btn) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        const row = btn.closest(".closingRow");
+        const select = row?.querySelector(".closingSelect");
+        const code = String(select?.value || "").trim();
+        if (!code) return;
+
+        const message = getClosingCatalogEntry(code);
+        currentAudioMeta = message;
+
+        audioCurrentTitleEl.textContent = message.shortDesc || `${message.fileNo}.mp3`;
+        srcInfoEl.textContent = `${message.fileNo}.mp3 • ${message.url}`;
+
+        try { audioEl.pause(); } catch(_) {}
+        try { audioEl.currentTime = 0; } catch(_) {}
+
+        audioEl.src = message.url;
+        audioEl.load();
+
+        try {
+          await audioEl.play();
+          setStatus(`Odtwarzanie testowe: ${message.fileNo}.mp3`);
+          updateQueuePreview();
+        } catch (err) {
+          setStatus(`Nie udało się odtworzyć ${message.fileNo}.mp3`, "bad");
+        }
+      });
+
     })();
   </script>
 </body>
