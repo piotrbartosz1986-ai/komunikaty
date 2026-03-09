@@ -13,13 +13,17 @@
       --soft:rgba(0,0,0,.15);
       --soft2:rgba(0,0,0,.22);
     }
-    * { box-sizing:border-box; }
+    
+    html{
+      margin:0;
+      padding:0;
+      background:var(--bg);
+    }
+* { box-sizing:border-box; }
     body {
       margin:0;
       min-height:100vh;
-      display:grid;
-      place-items:center;
-      padding:24px;
+      padding:4px;
       background:var(--bg);
       color:var(--fg);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
@@ -29,6 +33,7 @@
       display:grid;
       gap:16px;
       padding:0;
+      margin:0 auto;
     }
     .topBar{
       display:grid;
@@ -53,7 +58,7 @@
     .clock {
       font-weight:800;
       letter-spacing:.08em;
-      font-size:clamp(2.2rem,7vw,4rem);
+      font-size:clamp(1.54rem, 4.9vw, 2.8rem);
       line-height:1;
     }
     .date {
@@ -78,6 +83,7 @@
     }
     .topBtn{
       padding:8px 12px;
+      font-size:0.4rem;
       font-weight:800;
       border-radius:10px;
     }
@@ -528,7 +534,7 @@
 
     @media (max-width: 760px){
       body{
-        padding:8px;
+        padding:2px;
       }
       .app{
         width:100%;
@@ -958,6 +964,100 @@
       }
     }
 
+  
+    /* dodatkowy szybki komunikat pod Majsterkowaniem */
+    .quick-under-s2{
+      grid-column:2;
+      grid-row:2;
+    }
+    
+    .quick-under-s2-2{
+      grid-column:2;
+      grid-row:3;
+    }
+
+    
+    .quick-under-s2-3{
+      grid-column:2;
+      grid-row:4;
+    }
+
+    
+    /* dodatkowe szybkie komunikaty pod Dekoracją */
+    .quick-under-s1{ grid-column:1; grid-row:2; }
+    .quick-under-s1-2{ grid-column:1; grid-row:3; }
+    .quick-under-s1-3{ grid-column:1; grid-row:4; }
+    .quick-under-s1-4{ grid-column:1; grid-row:5; }
+    .quick-under-s1-5{ grid-column:1; grid-row:6; }
+    .quick-under-s1-6{ grid-column:1; grid-row:7; }
+
+    /* kolejny pod Majsterkowaniem */
+    .quick-under-s2-4{ grid-column:2; grid-row:5; }
+
+    @media (max-width:1100px){
+      .quick-under-s2{
+        grid-column:auto;
+        grid-row:auto;
+      }
+    }
+
+  
+    /* Kasjerskie: 2 przyciski = wysokość 1 kafelka (desktop) */
+    @media (min-width: 761px){
+      .quickGroups{ align-items:start !important; }
+
+      .quickGroupCash{
+        height:auto !important;
+        display:block !important;
+        min-height:0 !important;
+      }
+
+      .quickButtonsCash{
+        height:auto !important;
+        flex:none !important;
+        display:grid !important;
+        grid-template-columns:1fr !important;
+        gap:8px !important;
+        min-height:0 !important;
+      }
+
+      .quickButtonsCash .quickBtn{
+        flex:none !important;
+        aspect-ratio:auto !important;
+        height:42px !important;           /* (92px - 8px) / 2 */
+        min-height:42px !important;
+        padding:6px 6px !important;
+      }
+    }
+
+  
+    
+    .quickDivider{
+      margin-top:10px;
+      padding-top:8px;
+      border-top:1px solid rgba(255,255,255,.18);
+      font-size:.8rem;
+      font-weight:700;
+      opacity:.85;
+    }
+    .quickSecondaryGrid{
+      margin-top:8px;
+      display:grid;
+      grid-template-columns:repeat(4, minmax(0,1fr));
+      gap:8px;
+      min-width:0;
+    }
+    @media (max-width:1100px){
+      .quickSecondaryGrid{
+        grid-template-columns:repeat(2, minmax(0,1fr));
+      }
+    }
+    @media (max-width:420px){
+      .quickSecondaryGrid{
+        grid-template-columns:1fr;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -982,23 +1082,58 @@
       
 <aside class="quickPanel">
         <p class="quickPanelTitle">Pracownik działu xxxxxx proszony na linię kas, KG do Punktu info.</p>
-
-        <div class="quickGroups">
+<div class="quickGroups">
           <section class="quickGroup quickGroupWorkers">
             <div class="quickButtons quickButtonsWorkers">
               <button class="quickBtn quick-yellow" type="button" data-quick-code="s1">
                 Dekoracja
-              </button>
-              <button class="quickBtn quick-blue" type="button" data-quick-code="s2">
+              </button><button class="quickBtn quick-blue" type="button" data-quick-code="s2">
                 Majsterkowanie
-              </button>
-              <button class="quickBtn quick-orange" type="button" data-quick-code="s3">
+              </button><button class="quickBtn quick-orange" type="button" data-quick-code="s3">
                 Budowlanka
               </button>
               <button class="quickBtn quick-green" type="button" data-quick-code="s4">
                 Ogród
               </button>
             </div>
+        <div class="quickDivider">Komunikaty kierujące</div>
+        <div class="quickSecondaryGrid">
+
+              
+              <button class="quickBtn quick-yellow quick-under-s1" type="button" data-quick-code="s101">
+                Oświetlenie
+              </button>
+              <button class="quickBtn quick-yellow quick-under-s1-2" type="button" data-quick-code="s102">
+                Ceraty
+              </button>
+              <button class="quickBtn quick-yellow quick-under-s1-3" type="button" data-quick-code="s103">
+                Farby
+              </button>
+              <button class="quickBtn quick-yellow quick-under-s1-4" type="button" data-quick-code="s104">
+                Impregnaty
+              </button>
+              <button class="quickBtn quick-yellow quick-under-s1-5" type="button" data-quick-code="s105">
+                Wykładziny
+              </button>
+              <button class="quickBtn quick-yellow quick-under-s1-6" type="button" data-quick-code="s106">
+                Dywany
+              </button>
+
+                            <button class="quickBtn quick-blue quick-under-s2" type="button" data-quick-code="s201">
+                Liny/Łańcuchy
+              </button>
+              <button class="quickBtn quick-blue quick-under-s2 quick-under-s2-2" type="button" data-quick-code="s202">
+                Przewody
+              </button>
+              <button class="quickBtn quick-blue quick-under-s2 quick-under-s2-3" type="button" data-quick-code="s203">
+                Baterie łazienkowe
+              </button>
+              <button class="quickBtn quick-blue quick-under-s2 quick-under-s2-4" type="button" data-quick-code="s204">
+                Art. met./waga
+              </button>
+
+        </div>
+
           </section>
 
           <section class="quickGroup quickGroupCash">
@@ -1202,6 +1337,49 @@
           fullDesc: "Pracownik działu dekoracja proszony na linię kas",
           url: `${BASE_URL}s1.mp3?${AUDIO_CACHE_BUSTER}`
         },
+        s101: {
+          code: "s101",
+          fileNo: "s101",
+          shortDesc: "Oświetlenie",
+          fullDesc: "Oświetlenie",
+          url: `${BASE_URL}s101.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s102: {
+          code: "s102",
+          fileNo: "s102",
+          shortDesc: "Ceraty",
+          fullDesc: "Ceraty",
+          url: `${BASE_URL}s102.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s103: {
+          code: "s103",
+          fileNo: "s103",
+          shortDesc: "Farby",
+          fullDesc: "Farby",
+          url: `${BASE_URL}s103.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s104: {
+          code: "s104",
+          fileNo: "s104",
+          shortDesc: "Impregnaty",
+          fullDesc: "Impregnaty",
+          url: `${BASE_URL}s104.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s105: {
+          code: "s105",
+          fileNo: "s105",
+          shortDesc: "Wykładziny",
+          fullDesc: "Wykładziny",
+          url: `${BASE_URL}s105.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s106: {
+          code: "s106",
+          fileNo: "s106",
+          shortDesc: "Dywany",
+          fullDesc: "Dywany",
+          url: `${BASE_URL}s106.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+
         s2: {
           code: "s2",
           fileNo: "s2",
@@ -1209,7 +1387,39 @@
           fullDesc: "Pracownik działu majsterkowanie proszony na linię kas",
           url: `${BASE_URL}s2.mp3?${AUDIO_CACHE_BUSTER}`
         },
-        s3: {
+        s201: {
+          code: "s201",
+          fileNo: "s201",
+          shortDesc: "Liny/Łańcuchy",
+          fullDesc: "Liny/Łańcuchy",
+          url: `${BASE_URL}s201.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+
+        
+        s202: {
+          code: "s202",
+          fileNo: "s202",
+          shortDesc: "Przewody",
+          fullDesc: "Przewody",
+          url: `${BASE_URL}s202.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+
+        s203: {
+          code: "s203",
+          fileNo: "s203",
+          shortDesc: "Baterie łazienkowe",
+          fullDesc: "Baterie łazienkowe",
+          url: `${BASE_URL}s203.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+        s204: {
+          code: "s204",
+          fileNo: "s204",
+          shortDesc: "Art. met./waga",
+          fullDesc: "Art. met./waga",
+          url: `${BASE_URL}s204.mp3?${AUDIO_CACHE_BUSTER}`
+        },
+
+s3: {
           code: "s3",
           fileNo: "s3",
           shortDesc: "Pracownik działu budowlanego proszony na linię kas",
@@ -2384,6 +2594,14 @@
         return list;
       }
 
+      function formatEta(totalSec){
+        const sec = Math.max(0, Math.floor(Number(totalSec) || 0));
+        const min = Math.floor(sec / 60);
+        const rem = sec % 60;
+        if (min <= 0) return `${rem} s`;
+        return `${min} min ${rem} s`;
+      }
+
       function updateQueuePreview() {
         if (currentAudioMeta) {
           audioCurrentTitleEl.textContent = currentAudioMeta.shortDesc || `${currentAudioMeta.fileNo}.mp3`;
@@ -2420,7 +2638,7 @@
           return `
             <div class="queueItem">
               <div>${message.shortDesc}</div>
-              <div class="queueTimer">za ${message.etaSec} s</div>
+              <div class="queueTimer">za ${formatEta(message.etaSec)}</div>
             </div>
           `;
         }).join("");
