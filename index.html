@@ -1278,6 +1278,98 @@
   grid-column:1;
 }
 
+
+.voiceConfigBlock{
+  margin-top:8px;
+  display:grid;
+  gap:8px;
+}
+.voiceConfigTitle{
+  margin:0;
+  font-size:.92rem;
+  font-weight:800;
+  opacity:.95;
+}
+.voiceConfigSubtle{
+  margin:0;
+  font-size:.82rem;
+  opacity:.82;
+  line-height:1.35;
+}
+.voiceGrid{
+  display:grid;
+  gap:6px;
+}
+.voiceGridHead,
+.voiceGridRow{
+  display:grid;
+  grid-template-columns:48px 1.4fr 72px 112px 104px 104px 128px;
+  gap:6px;
+  align-items:center;
+}
+.voiceGridHead{
+  font-size:.78rem;
+  font-weight:800;
+  opacity:.9;
+}
+.voiceGridRow{
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.12);
+  background:rgba(0,0,0,.04);
+}
+.voiceGridRow.is-selected{
+  background:rgba(139,17,17,.08);
+  border-color:rgba(139,17,17,.22);
+}
+.voiceCellCenter{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+.voiceName{
+  font-weight:800;
+}
+.voiceGender{
+  text-transform:lowercase;
+  text-align:center;
+  font-weight:700;
+}
+.voiceSummaryPill{
+  justify-self:start;
+}
+.voiceGrid input[type="checkbox"]{
+  width:18px;
+  height:18px;
+  accent-color:#8b1111;
+}
+.voiceGrid input[type="checkbox"]:disabled{
+  opacity:.45;
+}
+@media (max-width:980px){
+  .voiceGridHead,
+  .voiceGridRow{
+    grid-template-columns:1fr 1fr;
+  }
+  .voiceGridHead{
+    display:none;
+  }
+  .voiceGridRow{
+    padding:10px;
+  }
+  .voiceGridRow > div[data-label]::before{
+    content:attr(data-label);
+    display:block;
+    font-size:.74rem;
+    font-weight:800;
+    opacity:.8;
+    margin-bottom:3px;
+  }
+  .voiceCellCenter{
+    justify-content:flex-start;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1527,6 +1619,84 @@
           <div class="dayLabel">Inwentura-Zamknięte(YYYY-MM-DD)</div>
           <textarea id="inventoryDays" class="tradingText" placeholder="Np. 2026-03-29, 2026-04-26"></textarea>
         </div>
+      </div>
+
+      
+      <div class="voiceConfigBlock">
+        <p class="voiceConfigTitle">Wybór głosu komunikatu</p>
+        <p class="voiceConfigSubtle">W kolumnie „Do wyboru” można zaznaczyć tylko 1 głos z 6. Kolumny „Pracownik / Doradca / Krótki twardy” działają tylko dla aktualnie wybranego głosu i można zaznaczyć tylko 1 opcję.</p>
+        <div class="voiceGrid" id="voiceGrid">
+          <div class="voiceGridHead">
+            <div>lp</div>
+            <div>Nazwa</div>
+            <div>Płeć</div>
+            <div class="voiceCellCenter">Do wyboru</div>
+            <div class="voiceCellCenter">Pracownik</div>
+            <div class="voiceCellCenter">Doradca</div>
+            <div class="voiceCellCenter">Krótki twardy</div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="1">
+            <div data-label="lp">1</div>
+            <div class="voiceName" data-label="Nazwa">Algenib</div>
+            <div class="voiceGender" data-label="Płeć">m</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="1" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="1" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="1" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="1" data-variant="short" /></div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="2">
+            <div data-label="lp">2</div>
+            <div class="voiceName" data-label="Nazwa">Algieba</div>
+            <div class="voiceGender" data-label="Płeć">m</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="2" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="2" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="2" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="2" data-variant="short" /></div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="3">
+            <div data-label="lp">3</div>
+            <div class="voiceName" data-label="Nazwa">Enceladus</div>
+            <div class="voiceGender" data-label="Płeć">m</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="3" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="3" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="3" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="3" data-variant="short" /></div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="4">
+            <div data-label="lp">4</div>
+            <div class="voiceName" data-label="Nazwa">Aode</div>
+            <div class="voiceGender" data-label="Płeć">k</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="4" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="4" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="4" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="4" data-variant="short" /></div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="5">
+            <div data-label="lp">5</div>
+            <div class="voiceName" data-label="Nazwa">Gacrux</div>
+            <div class="voiceGender" data-label="Płeć">k</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="5" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="5" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="5" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="5" data-variant="short" /></div>
+          </div>
+
+          <div class="voiceGridRow" data-voice-row="6">
+            <div data-label="lp">6</div>
+            <div class="voiceName" data-label="Nazwa">Despina</div>
+            <div class="voiceGender" data-label="Płeć">k</div>
+            <div class="voiceCellCenter" data-label="Do wyboru"><input type="checkbox" class="voicePick" data-voice-id="6" /></div>
+            <div class="voiceCellCenter" data-label="Pracownik"><input type="checkbox" class="voiceVariant" data-voice-id="6" data-variant="pracownik" /></div>
+            <div class="voiceCellCenter" data-label="Doradca"><input type="checkbox" class="voiceVariant" data-voice-id="6" data-variant="doradca" /></div>
+            <div class="voiceCellCenter" data-label="Krótki twardy"><input type="checkbox" class="voiceVariant" data-voice-id="6" data-variant="short" /></div>
+          </div>
+        </div>
+        <div class="pill voiceSummaryPill" id="voiceSummaryPill">Głos: Algenib • wariant: Pracownik • końcówka: k1d</div>
       </div>
 
       <hr style="border:none;border-top:1px solid rgba(0,0,0,.12);margin:6px 0;"/>
@@ -1859,6 +2029,24 @@ s3: {
       const tradingSundaysEl = document.getElementById("tradingSundays");
       const closedHolidaysEl = document.getElementById("closedHolidays");
       const inventoryDaysEl = document.getElementById("inventoryDays");
+      const voiceGridEl = document.getElementById("voiceGrid");
+      const voiceSummaryPillEl = document.getElementById("voiceSummaryPill");
+
+      const VOICE_OPTIONS = [
+        { id: 1, name: "Algenib", gender: "m" },
+        { id: 2, name: "Algieba", gender: "m" },
+        { id: 3, name: "Enceladus", gender: "m" },
+        { id: 4, name: "Aode", gender: "k" },
+        { id: 5, name: "Gacrux", gender: "k" },
+        { id: 6, name: "Despina", gender: "k" }
+      ];
+
+      const VOICE_VARIANTS = {
+        pracownik: { label: "Pracownik", suffix: "d" },
+        doradca: { label: "Doradca", suffix: "k" },
+        short: { label: "Krótki twardy", suffix: "sk" }
+      };
+
 
       let currentAudioMeta = null;
       let durationMs = 0;
@@ -1903,6 +2091,10 @@ s3: {
         inventoryDays: [],
         closingEnabled: true,
         nextOpenInfoEnabled: false,
+        voiceConfig: {
+          selectedVoiceId: 1,
+          selectedVariant: "pracownik"
+        },
         closingMessages: {
           30: { enabled: true, fileNo: "z30z1" },
           25: { enabled: true, fileNo: "z25z1" },
@@ -1915,7 +2107,75 @@ s3: {
       };
 
       let storeSettings = JSON.parse(JSON.stringify(DEFAULT_STORE_SETTINGS));
+      storeSettings.voiceConfig = normalizeVoiceConfig(storeSettings.voiceConfig);
       let closingPlayedByDate = {};
+
+      function normalizeVoiceConfig(config){
+        const cfg = Object.assign({ selectedVoiceId: 1, selectedVariant: "pracownik" }, config || {});
+        const voiceIds = VOICE_OPTIONS.map(v => v.id);
+        if (!voiceIds.includes(Number(cfg.selectedVoiceId))) cfg.selectedVoiceId = 1;
+        cfg.selectedVoiceId = Number(cfg.selectedVoiceId);
+        if (!VOICE_VARIANTS[cfg.selectedVariant]) cfg.selectedVariant = "pracownik";
+        return cfg;
+      }
+
+      function getSelectedVoiceConfig(){
+        storeSettings.voiceConfig = normalizeVoiceConfig(storeSettings.voiceConfig);
+        return storeSettings.voiceConfig;
+      }
+
+      function getVoiceSuffix(voiceConfig){
+        const cfg = normalizeVoiceConfig(voiceConfig || getSelectedVoiceConfig());
+        return `k${cfg.selectedVoiceId}${VOICE_VARIANTS[cfg.selectedVariant].suffix}`;
+      }
+
+      function resolveQuickMessage(code){
+        const template = QUICK_MESSAGES[code];
+        if (!template) return null;
+        const suffix = getVoiceSuffix();
+        const fileNo = `${template.code}${suffix}`;
+        return {
+          ...template,
+          fileNo,
+          url: `${BASE_URL}${fileNo}.mp3?${AUDIO_CACHE_BUSTER}`
+        };
+      }
+
+      function getVoiceDialogSelection(){
+        const selectedPick = voiceGridEl?.querySelector('.voicePick:checked');
+        const selectedVoiceId = Number(selectedPick?.getAttribute('data-voice-id') || 1);
+        let selectedVariant = "pracownik";
+        const variantChecked = voiceGridEl?.querySelector(`.voiceVariant[data-voice-id="${selectedVoiceId}"]:checked`);
+        if (variantChecked && VOICE_VARIANTS[variantChecked.getAttribute('data-variant')]) {
+          selectedVariant = variantChecked.getAttribute('data-variant');
+        }
+        return normalizeVoiceConfig({ selectedVoiceId, selectedVariant });
+      }
+
+      function renderVoiceDialogState(config){
+        if (!voiceGridEl) return;
+        const cfg = normalizeVoiceConfig(config || getVoiceDialogSelection());
+        voiceGridEl.querySelectorAll('.voiceGridRow').forEach((row) => {
+          const rowVoiceId = Number(row.getAttribute('data-voice-row'));
+          const selected = rowVoiceId === cfg.selectedVoiceId;
+          row.classList.toggle('is-selected', selected);
+
+          const pick = row.querySelector('.voicePick');
+          if (pick) pick.checked = selected;
+
+          row.querySelectorAll('.voiceVariant').forEach((el) => {
+            const variant = el.getAttribute('data-variant');
+            el.disabled = !selected;
+            el.checked = selected && variant === cfg.selectedVariant;
+          });
+        });
+
+        const voice = VOICE_OPTIONS.find(v => v.id === cfg.selectedVoiceId) || VOICE_OPTIONS[0];
+        if (voiceSummaryPillEl) {
+          voiceSummaryPillEl.textContent = `Głos: ${voice.name} • wariant: ${VOICE_VARIANTS[cfg.selectedVariant].label} • końcówka: ${getVoiceSuffix(cfg)}`;
+        }
+      }
+
 
       try {
         if (location.protocol === "https:" && BASE_URL.startsWith("http://")) {
@@ -2112,6 +2372,28 @@ s3: {
       }
 
       closeInfoDialogBtn.addEventListener("click", () => infoDialog.close());
+
+      if (voiceGridEl) {
+        voiceGridEl.addEventListener("change", (event) => {
+          const target = event.target;
+          if (!(target instanceof HTMLInputElement)) return;
+
+          if (target.classList.contains("voicePick")) {
+            const cfg = getVoiceDialogSelection();
+            cfg.selectedVoiceId = Number(target.getAttribute("data-voice-id") || 1);
+            cfg.selectedVariant = getVoiceDialogSelection().selectedVariant;
+            renderVoiceDialogState(cfg);
+            return;
+          }
+
+          if (target.classList.contains("voiceVariant")) {
+            const cfg = getVoiceDialogSelection();
+            cfg.selectedVoiceId = Number(target.getAttribute("data-voice-id") || cfg.selectedVoiceId || 1);
+            cfg.selectedVariant = target.getAttribute("data-variant") || "pracownik";
+            renderVoiceDialogState(cfg);
+          }
+        });
+      }
 
       function enforceSundayExclusion(changed){
         if (changed === "every" && sunEveryEl.checked) sunTradingEl.checked = false;
@@ -2349,7 +2631,7 @@ s3: {
       }
 
       function enqueueQuickMessage(code){
-        const msg = QUICK_MESSAGES[code];
+        const msg = resolveQuickMessage(code);
         if (!msg) return;
         quickQueue.push({ ...msg });
         renderQuickQueue();
@@ -2542,6 +2824,8 @@ s3: {
         enableNextOpenInfoEl.checked = !!storeSettings.nextOpenInfoEnabled;
         syncAutoInfoToggle();
 
+        renderVoiceDialogState(normalizeVoiceConfig(storeSettings.voiceConfig));
+
         Object.keys(storeSettings.closingMessages || {}).forEach((key) => {
           const options = CLOSING_MESSAGE_OPTIONS[String(key)] || [];
           const current = storeSettings.closingMessages[key]?.fileNo;
@@ -2599,6 +2883,7 @@ s3: {
           inventoryDays: inventory,
           closingEnabled: !!enableClosingEl.checked,
           nextOpenInfoEnabled: !!(enableClosingEl.checked && enableNextOpenInfoEl.checked),
+          voiceConfig: normalizeVoiceConfig(getVoiceDialogSelection()),
           closingMessages
         };
       }
@@ -3320,6 +3605,7 @@ s3: {
           storeSettings.tradingSundays = storeSettings.tradingSundays || [];
           storeSettings.closedHolidays = storeSettings.closedHolidays || [];
           storeSettings.inventoryDays = storeSettings.inventoryDays || [];
+          storeSettings.voiceConfig = normalizeVoiceConfig(storeSettings.voiceConfig);
           storeSettings.nextOpenInfoEnabled = !!storeSettings.nextOpenInfoEnabled;
         }
         if (state.closingPlayedByDate) {
